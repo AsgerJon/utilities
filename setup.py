@@ -15,5 +15,5 @@ setup(
   url="https://github.com/AsgerJon/vistutils",  # Optional
   author="Asger Jon Vistisen",
   author_email="asgerjon2@gmail.com",
-  packages=find_packages(include=['vistutils'])
+  packages=find_packages()
 )

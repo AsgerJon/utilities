@@ -10,7 +10,8 @@ for item in dir(obj):
   print(item)
 ~~~
 Simply use waila(obj)! This prints the name of each entry like above including the documentation associated with the object. 
-waila supports the following keyword flags:
+waila supports the following keyword arguments
+
 dunder
 : Includes dunder methods of the objects (default False)
 

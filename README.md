@@ -19,10 +19,10 @@ magic
 : alias for dunder (default False)
 
 getReturn
-: if True, waila(obj) returns items as a list of dictionaries with keys: 'name', 'type' and 'help'
+: if True, waila(obj) returns items as a list of dictionaries with keys: 'name', 'type' and 'help' (default False)
 
 fid 
 : saves the results to a text file of this name.
 
 save
-: if True, saves results to textfile, ignored if fid is given, otherwise a filename is generated, which includes the name of the object and the time of save.
+: if True, saves results to textfile, ignored if fid is given, otherwise a filename is generated, which includes the name of the object and the time of save. (default False)

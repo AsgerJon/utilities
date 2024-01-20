@@ -6,8 +6,8 @@ from __future__ import annotations
 
 import os
 
-from utils.readenv import ReadEnvException
-from utils.text import monoSpace
+from vistutils import monoSpace
+from vistutils.readenv import ReadEnvException
 
 
 def readFile(fid: str, **kwargs) -> list[str]:
@@ -35,4 +35,3 @@ def readFile(fid: str, **kwargs) -> list[str]:
       return f.readlines()
   except PermissionError as permissionError:
     raise ReadEnvException(permissionError)
-

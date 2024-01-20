@@ -7,3 +7,4 @@ from __future__ import annotations
 from ._type_names import Bases, Namespace
 from ._abstract_namespace import AbstractNamespace
 from ._base_namespace import BaseNamespace
+from ._abstract_metaclass import AbstractMetaclass

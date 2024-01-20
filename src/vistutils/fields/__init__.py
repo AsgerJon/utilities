@@ -4,3 +4,4 @@
 from __future__ import annotations
 
 from ._abstract_field import AbstractField
+from ._abstract_decorator import AbstractDecorator

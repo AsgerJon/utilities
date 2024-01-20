@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from utils.metas import AbstractNamespace
+from vistutils.metas import AbstractNamespace, Bases
 
 
 class BaseNamespace(AbstractNamespace):
@@ -14,8 +14,16 @@ class BaseNamespace(AbstractNamespace):
   dictionary behaviour, but includes logging of item accessor method
   calls. """
 
-  def __init__(self, *args, **kwargs) -> None:
-    AbstractNamespace.__init__(self, *args, **kwargs)
+  def __init__(self, name: str, bases: Bases, **kwargs) -> None:
+    AbstractNamespace.__init__(self, **kwargs)
+    self.__class_name__ = name
+    self.__class_bases__ = bases
+    self.__kwargs__ = kwargs
+    self.__meta_class__ = None
+
+  def setMetaclass(self, mcls: type) -> None:
+    """Setter-function for the metaclass"""
+    self.__meta_class__ = mcls
 
   def __explicit_get_item__(self, key: str, ) -> Any:
     """Implementation of item retrieval"""

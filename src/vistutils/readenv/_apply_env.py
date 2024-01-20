@@ -8,8 +8,8 @@ from __future__ import annotations
 import os
 from typing import Optional
 
-from utils.readenv import loadEnv, parseEnv
-from utils.text import monoSpace
+from vistutils.readenv import loadEnv, parseEnv
+from vistutils import monoSpace
 
 
 def applyEnv(**kwargs) -> Optional[list[dict[str, str]]]:

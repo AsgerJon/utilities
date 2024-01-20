@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import os.path
 
-from utils.readenv import getParent
+from vistutils.readenv import getParent
 
 
 def getRoot(dir_: str = None) -> str:

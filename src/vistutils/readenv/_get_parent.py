@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import os.path
 
-from utils.text import monoSpace
+from vistutils import monoSpace
 
 
 def getParent(*args, **kwargs) -> str:

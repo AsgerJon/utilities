@@ -7,8 +7,8 @@ from __future__ import annotations
 import subprocess
 from typing import Never, Any, Callable
 
-from utils.cli import CLI
-from utils.fields import AbstractField
+from vistutils.cli import CLI
+from vistutils.fields import AbstractField
 
 
 class CLIField(AbstractField):

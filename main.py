@@ -10,6 +10,7 @@ from icecream import ic
 
 from _tester_class_01 import Test01
 from test import Test
+from vistutils import maybe
 from vistutils.metas import AbstractMetaclass
 
 ic.configureOutput(includeContext=True)
@@ -17,7 +18,7 @@ ic.configureOutput(includeContext=True)
 
 def tester00() -> None:
   """Hello world"""
-  stuff = [os, sys, Test, ic]
+  stuff = [os, sys, Test, ic, maybe]
   for item in stuff:
     print(item)
 

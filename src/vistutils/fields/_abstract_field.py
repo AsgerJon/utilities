@@ -20,6 +20,7 @@ class AbstractField:
   def __set_name__(self, owner: type, name: str) -> None:
     self.__field_owner__ = owner
     self.__field_name__ = name
+    self.__prepare_owner__(owner)
 
   @abstractmethod
   def __prepare_owner__(self, owner: type) -> type:

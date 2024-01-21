@@ -9,7 +9,7 @@ from typing import Any
 def searchKey(*args, **kwargs) -> Any:
   """The searchKey function looks for values in keyword arguments by key."""
   keys = []
-  types = [object]
+  types = []
   for arg in args:
     if isinstance(arg, str):
       keys.append(arg)
@@ -18,9 +18,12 @@ def searchKey(*args, **kwargs) -> Any:
   for key in keys:
     val = kwargs.get(key, None)
     if val is not None:
-      if isinstance(val, *types):
+      if types:
+        if isinstance(val, (*types,)):
+          return val
+      else:
         return val
   if kwargs.get('_recursion', False):
-    raise RecursionError
+    return None
   keys = [key.lower() for key in keys]
   return searchKey(*types, *keys, _recursion=True, **kwargs)

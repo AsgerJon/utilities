@@ -5,3 +5,4 @@ from __future__ import annotations
 
 from ._abstract_field import AbstractField
 from ._abstract_decorator import AbstractDecorator
+from ._typed_field import TypedField

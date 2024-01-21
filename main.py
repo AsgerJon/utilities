@@ -9,6 +9,7 @@ import sys
 from icecream import ic
 
 from _tester_class_01 import Test01
+from _tester_class_02 import Test02
 from test import Test
 from vistutils import maybe
 from vistutils.metas import AbstractMetaclass
@@ -32,7 +33,7 @@ def tester01() -> None:
 
 def tester02() -> None:
   """Test of metaclass"""
-  bla = Test01('lmao')
+  bla = Test02(1, 2, 3)
 
 
 if __name__ == '__main__':

@@ -5,13 +5,13 @@ build-backend = 'setuptools.build_meta'
 
 [project]
 name = "vistutils"
-version = "0.0.14"
+version = "0.0.15"
 authors = [
   { name = "Asger Jon Vistisen", email = "asgerjon2@gmail.com" },
 ]
 description = "vistutils provides helpful utility functions"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 classifiers = [
   "Programming Language :: Python :: 3",
   "License :: OSI Approved :: MIT License",

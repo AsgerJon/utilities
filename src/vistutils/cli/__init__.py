@@ -5,5 +5,4 @@ sent to the constructor."""
 #  Copyright (c) 2024 Asger Jon Vistisen
 from __future__ import annotations
 
-from ._res import Res
 from ._cli import CLI

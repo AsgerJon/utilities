@@ -7,4 +7,3 @@ from ._apply import apply
 from ._abstract_field import AbstractField
 from ._cli_field import CLIField
 from ._abstract_decorator import AbstractDecorator
-from ._typed_field import TypedField

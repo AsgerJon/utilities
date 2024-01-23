@@ -14,11 +14,10 @@ other arguments received in the original call."""
 #  Copyright (c) 2024 Asger Jon Vistisen
 from __future__ import annotations
 
-import subprocess
+from subprocess import run, CompletedProcess, PIPE
 from typing import Callable, Any
 
 from vistutils import monoSpace
-from vistutils.cli import Res
 
 
 class CLI:
@@ -62,10 +61,10 @@ class CLI:
     """Sets the inner function to given callable"""
     self.__inner_function__ = callMeMaybe
 
-  def _run(self) -> Res:
+  def _run(self) -> CompletedProcess:
     """Executes the command in the command line"""
-    res = subprocess.run(self._command, shell=True,
-                         stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    res = run(self._command, shell=True,
+              stdout=PIPE, stderr=PIPE)
     out = self._cleanString(res.stdout.decode('utf-8'))
     err = self._cleanString(res.stderr.decode('utf-8'))
-    return Res(out, err)
+    return res

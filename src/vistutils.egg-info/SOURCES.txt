@@ -11,7 +11,6 @@ src/vistutils/vistutils.py
 src/vistutils.egg-info/PKG-INFO
 src/vistutils.egg-info/SOURCES.txt
 src/vistutils.egg-info/dependency_links.txt
-src/vistutils.egg-info/requires.txt
 src/vistutils.egg-info/top_level.txt
 src/vistutils/cli/__init__.py
 src/vistutils/cli/_cli.py

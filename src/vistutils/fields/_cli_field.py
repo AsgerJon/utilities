@@ -4,9 +4,6 @@ method decorated."""
 #  Copyright (c) 2024 Asger Jon Vistisen
 from __future__ import annotations
 
-import subprocess
-from typing import Never, Any, Callable
-
 from vistutils.cli import CLI
 from vistutils.fields import AbstractField
 

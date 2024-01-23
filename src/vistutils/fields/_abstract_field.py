@@ -6,7 +6,6 @@ automatically by the __set_name__ method. """
 from __future__ import annotations
 
 from abc import abstractmethod
-from typing import Callable
 
 
 class AbstractField:

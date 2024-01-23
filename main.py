@@ -6,35 +6,16 @@ from __future__ import annotations
 import os
 import sys
 
-from icecream import ic
-
-from _tester_class_01 import Test01
-from _tester_class_02 import Test02
 from test import Test
 from vistutils import maybe
-from vistutils.metas import AbstractMetaclass
-
-ic.configureOutput(includeContext=True)
 
 
 def tester00() -> None:
   """Hello world"""
-  stuff = [os, sys, Test, ic, maybe]
+  stuff = [os, sys, Test, maybe]
   for item in stuff:
     print(item)
 
 
-def tester01() -> None:
-  """Test of __self__ on __prepare__"""
-  func = AbstractMetaclass.__prepare__
-  ic(getattr(func, '__self__', 'NOT FOUND!'))
-  ic(getattr(func, '__func__', 'NOT FOUND!'))
-
-
-def tester02() -> None:
-  """Test of metaclass"""
-  bla = Test02(1, 2, 3)
-
-
 if __name__ == '__main__':
-  tester02()
+  tester00()

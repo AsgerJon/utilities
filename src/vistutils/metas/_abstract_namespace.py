@@ -23,21 +23,31 @@ class AbstractNamespace(dict):
   def __init__(self, *args, **kwargs) -> None:
     dict.__init__(self, *args, **kwargs)
     self.__access_log__ = []
+    self.__update_log__ = True
 
   def _logGet(self, key: str, val: Any, ) -> None:
     """Logs the results of item retrieval"""
-    entry = {'access': 'GET', 'key': key, 'val': val}
-    self.__access_log__.append(entry)
+    if self.__update_log__:
+      entry = {'access': 'GET', 'key': key, 'val': val}
+      self.__access_log__.append(entry)
 
   def _logSet(self, key: str, oldVal: Any, newVal: Any) -> None:
     """Logs the results of item setting"""
-    entry = {'access': 'SET', 'key': key, 'oldVal': oldVal, 'newVal': newVal}
-    self.__access_log__.append(entry)
+    if self.__update_log__:
+      entry = {'access': 'SET', 'key': key,
+               'oldVal': oldVal, 'newVal': newVal, 'val': newVal}
+      self.__access_log__.append(entry)
 
   def _logDel(self, key: str, oldVal: Any) -> None:
     """Logs the results of item deletion."""
-    entry = {'access': 'DEL', 'key': key, 'oldVal': oldVal}
-    self.__access_log__.append(entry)
+    if self.__update_log__:
+      entry = {'access': 'DEL', 'key': key, 'oldVal': oldVal}
+      self.__access_log__.append(entry)
+
+  def freeze(self) -> None:
+    """When this instance arrives in the __new__ method in the metaclass,
+    invoke this method to disable logging."""
+    self.__update_log__ = False
 
   @abstractmethod
   def __explicit_get_item__(self, key: str, ) -> Any:
@@ -48,7 +58,6 @@ class AbstractNamespace(dict):
     :return: The value return by the namespace in response to the key
     :rtype: Any
     """
-    return dict.__getitem__(self, key)
 
   @abstractmethod
   def __explicit_set_item__(self, key: str, Val: Any, old: Any) -> None:
@@ -61,7 +70,6 @@ class AbstractNamespace(dict):
     :param old: The existing value returned on the given key
     :type old: Any
     """
-    dict.__setitem__(self, key, Val)
 
   @abstractmethod
   def __explicit_del_item__(self, key: str, oldVal: Any) -> None:
@@ -72,7 +80,6 @@ class AbstractNamespace(dict):
     :param oldVal: The existing value returned on the given key
     :type oldVal: Any
     """
-    dict.__delitem__(self, key)
 
   def __getitem__(self, key: str) -> Any:
     """Item retrieval. Subclasses must not reimplement this method!
@@ -90,7 +97,7 @@ class AbstractNamespace(dict):
     self._logGet(key, val, )
     return val
 
-  def __set_item__(self, key: str, val: Any) -> None:
+  def __setitem__(self, key: str, val: Any) -> None:
     """Item setting. Subclass must not reimplement this method!
     :param key: The key to set
     :type key: str
@@ -99,7 +106,7 @@ class AbstractNamespace(dict):
     try:
       dict.__setitem__(self, key, val)
     except KeyError as keyError:
-      self._logSet(key, keyError, )
+      self._logSet(key, keyError, val)
       raise keyError
     oldVal = None
     if key in self:
@@ -107,7 +114,7 @@ class AbstractNamespace(dict):
     self._logSet(key, oldVal, val, )
     self.__explicit_set_item__(key, val, oldVal)
 
-  def __del_item__(self, key: str) -> None:
+  def __delitem__(self, key: str) -> None:
     """Item deletion. Subclass must not reimplement this method!
     :param key: The key to delete
     :type key: str"""

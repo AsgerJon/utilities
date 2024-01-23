@@ -59,9 +59,10 @@ class AbstractDecorator(metaclass=_MetaDecorator):
       try:
         self._setInnerObject(args[0])
       except AttributeError:
-        self._callInnerObject(*args, **kwargs)
+        return self._callInnerObject(*args, **kwargs)
+    return self._callInnerObject(**kwargs)
 
-  def _callInnerObject(self, *args, **kwargs) -> None:
+  def _callInnerObject(self, *args, **kwargs) -> Any:
     """Calls the inner object"""
     if self.__inner_object__ is None:
       raise RuntimeError

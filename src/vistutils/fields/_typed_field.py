@@ -6,9 +6,8 @@ from __future__ import annotations
 from typing import Self, Any
 
 from ezdata import EZData
-from icecream import ic
 
-from vistutils import maybeType, monoSpace, stringList, searchKey, maybe
+from vistutils import monoSpace, stringList, searchKey
 from vistutils.fields import AbstractField
 from vistutils.waitaminute import typeMsg
 
@@ -85,7 +84,6 @@ class TypedField(AbstractField):
     if typeArg is None:
       defValArg = args[0]
       typeArg = type(defValArg)
-      ic(typeArg, defValArg)
       return TypedValue(typeArg, defValArg)
     for arg in args:
       if isinstance(arg, typeArg):
@@ -97,9 +95,6 @@ class TypedField(AbstractField):
     """Parses arguments"""
     valueKwarg = TypedField._parseKwargs(**kwargs)
     valueArg = TypedField._parseArgs(*args)
-    ic(valueKwarg)
-    ic(valueArg)
-    ic(valueKwarg * valueArg)
     if not all([isinstance(a, TypedValue) for a in [valueKwarg, valueArg]]):
       raise TypeError
     return valueKwarg * valueArg
@@ -110,9 +105,6 @@ class TypedField(AbstractField):
     self._valueType = parsed.valueType
     self._defaultValue = parsed.defaultValue
     if self._valueType is type(None):
-      ic(args)
-      ic(kwargs)
-      ic(parsed)
       raise TypeError
 
   def typeGuard(self, value: Any) -> bool:
@@ -140,7 +132,6 @@ class TypedField(AbstractField):
             if field.typeGuard(arg) or arg is None:
               setattr(this, field._getPrivateName(), arg)
             else:
-              ic(arg, field._valueType)
               raise TypeError
           else:
             raise TypeError
@@ -157,7 +148,6 @@ class TypedField(AbstractField):
         fieldInit(this, *args, **kwargs)
 
       setattr(owner, '__init__', newInit)
-      ic(owner)
 
     existingFields = getattr(owner, '__descriptor_fields__')
     setattr(owner, '__descriptor_fields__', [*existingFields, self])

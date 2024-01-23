@@ -4,14 +4,16 @@ attribute. """
 #  Copyright (c) 2024 Asger Jon Vistisen
 from __future__ import annotations
 
-from typing import Any
-
-from vistutils.fields import AbstractDecorator
+from typing import Any, Callable
 
 
-class _Apply(AbstractDecorator):
-  """The apply decorator permits decoration by setting a particular
-  attribute. """
+def apply(key: str, value: Any) -> Callable:
+  """Decorates object by changing given attribute to given value."""
 
-  def __init__(self, key: str, value: Any) -> None:
-    pass
+  def func(callMeMaybe: Callable) -> Callable:
+    """The apply decorator creates this callable which is then called on
+    the decorated object"""
+    setattr(callMeMaybe, key, value)
+    return callMeMaybe
+
+  return func

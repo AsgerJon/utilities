@@ -50,10 +50,14 @@ class AbstractMetaclass(MetaMetaClass, metaclass=MetaMetaClass):
     if not hasattr(cls, '__new__'):
       return type.__call__(cls, *args, **kwargs)
     __new__ = getattr(cls, '__new__')
-    __init__ = getattr(cls, '__init__', object.__init__)
+    __init__ = getattr(cls, '__init__', None)
     self = __new__(cls)
-    if hasattr(__init__, '__self__'):
-      __init__(*args, **kwargs)
+    if callable(__init__):
+      if hasattr(__init__, '__self__'):
+        __init__(*args, **kwargs)
+      else:
+        __init__(self, *args, **kwargs)
+      return self
     else:
-      __init__(self, *args, **kwargs)
-    return self
+      object.__init__(self)
+      return self

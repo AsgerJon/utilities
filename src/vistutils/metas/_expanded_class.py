@@ -41,6 +41,9 @@ __class_prepare__ - Same as above"""
 #  Copyright (c) 2024 Asger Jon Vistisen
 from __future__ import annotations
 
+from vistutils.metas import AbstractMetaclass
+
 
 class ExpandedMeta(AbstractMetaclass):
   """Metaclass used to create the ExpandedClass"""
+  raise NotImplementedError

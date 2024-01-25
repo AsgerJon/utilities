@@ -6,7 +6,6 @@ on:
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
-    environment: production
     steps:
       - uses: actions/checkout@v2
 
@@ -23,11 +22,13 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install bump2version build
+          pip install bump2version build twine
 
       - name: Bump Version and Tag
+        id: version
         run: |
           bump2version patch --commit --tag
+          echo "::set-output name=tag::$(git describe --tags --abbrev=0)"
 
       - name: Push Changes
         run: |
@@ -41,3 +42,13 @@ jobs:
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
           skip-existing: true
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          release_name: Release ${{ steps.version.outputs.tag }}
+          draft: false
+          prerelease: false

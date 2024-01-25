@@ -9,10 +9,16 @@ jobs:
     environment: production
     steps:
       - uses: actions/checkout@v2
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.12'  # Your Python version
+          python-version: '3.12'  # Specify your Python version
+
+      - name: Configure Git User Info
+        run: |
+          git config --local user.name "Asger Jon Vistisen"
+          git config --local user.email "asgerjon2@gmail.com"
 
       - name: Install Dependencies
         run: |

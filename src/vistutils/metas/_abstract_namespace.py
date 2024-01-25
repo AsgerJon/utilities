@@ -103,11 +103,6 @@ class AbstractNamespace(dict):
     :type key: str
     :param val: The new value attempted to be set at given key
     :type val: Any"""
-    try:
-      dict.__setitem__(self, key, val)
-    except KeyError as keyError:
-      self._logSet(key, keyError, val)
-      raise keyError
     oldVal = None
     if key in self:
       oldVal = dict.__getitem__(self, key)

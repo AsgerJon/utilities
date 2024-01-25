@@ -7,7 +7,7 @@ import os
 import sys
 
 from test import Test
-from vistutils import maybe
+from vistutils import maybe, ComplexNumber
 
 
 def tester00() -> None:
@@ -15,6 +15,14 @@ def tester00() -> None:
   stuff = [os, sys, Test, maybe]
   for item in stuff:
     print(item)
+
+
+def tester01() -> None:
+  """Complex number test"""
+  a = ComplexNumber(5., 4.)
+  print(a)
+  print(a.RE)
+  print(a.IM)
 
 
 if __name__ == '__main__':

@@ -4,3 +4,5 @@
 from __future__ import annotations
 
 from ._type_msg import typeMsg
+from ._effort_exception import EffortException
+from ._parsing_error import ParsingError

@@ -16,14 +16,14 @@ from typing import Any
 
 def typeMsg(name: str, actObj: Any, expType: type) -> str:
   """The typeMsg module creates a standardized message for type errors where
-  an object as an unexpected type. The function takes as arguments:
+an object as an unexpected type. The function takes as arguments:
 
-  name: The name of the object as it was referred to in the scope
-  actObj: The actual object received
-  actType: The actual type of the object
-  expType: The expected type of the object
+name: The name of the object as it was referred to in the scope
+actObj: The actual object received
+actType: The actual type of the object
+expType: The expected type of the object
 
-  """
+"""
   actStr = str(actObj)
   actTypeName = type(actObj).__qualname__
   expTypeName = expType.__qualname__

@@ -10,5 +10,5 @@ import os
 
 def getRoot(dir_: str = None) -> str:
   """The getRoot function attempts to locate the root of the current
-  project."""
+project."""
   return os.path.dirname(os.path.abspath(sys.modules['__main__'].__file__))

@@ -24,17 +24,19 @@ class DecMeta(AbstractMetaclass):
               namespace: DecSpace,
               **kwargs) -> type:
     namespace.freeze()
-    cls = AbstractMetaclass.__new__(mcls, name, bases, namespace, **kwargs)
+    cls = AbstractMetaclass.__new__(mcls, name, bases, namespace,
+                                    **kwargs)
     return cls
 
   def __call__(cls, *args, **kwargs) -> Any:
     """This implementation handles the case where the created decorator
-    class is used without instantiation. Derived classes should implement
-    a class method named '__class_call__' to define this behaviour. """
+class is used without instantiation. Derived classes should implement
+a class method named '__class_call__' to define this behaviour. """
     for (key, val) in cls.__dict__.items():
       if callable(val) and hasattr(val, '__isabstractmethod__'):
         if getattr(val, '__isabstractmethod__'):
-          raise TypeError('Attempted to instantiate abstract class!')
+          raise TypeError(
+            'Attempted to instantiate abstract class!')
     classCall = getattr(cls, '__class_call__', None)
     if classCall is None:
       return AbstractMetaclass.__call__(cls, *args, **kwargs)

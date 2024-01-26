@@ -5,10 +5,10 @@ filtering."""
 from __future__ import annotations
 
 from builtins import tuple
-from typing import Any, Optional
+from typing import Any, Optional, Union
 
 Types = type | list[type] | tuple[type, ...]
-Number = int | float | complex
+Number = Union[int, float, complex]
 Ints = int | tuple[int, ...] | list[int]
 Floats = float | tuple[float, ...] | list[float]
 Complexes = complex | tuple[complex, ...] | list[complex]
@@ -23,7 +23,7 @@ def maybe(*args, ) -> Any:
 
 def _collectTypes(*args, ) -> tuple[Types, list]:
   """Splits the positional arguments into types and non-types. Types must
-  be the first positional arguments."""
+be the first positional arguments."""
   type_ = []
   for arg in args:
     if isinstance(arg, type):
@@ -49,8 +49,8 @@ def _complexFloat(floatCandidate: complex) -> Optional[float]:
 
 def _maybeInt(*args, **kwargs) -> Optional[Ints]:
   """Tries to find either the first or all arguments of integer type.
-  Arguments of float or complex are valid, if they are near an integer. In
-  this case that integer replaces it."""
+Arguments of float or complex are valid, if they are near an integer. In
+this case that integer replaces it."""
   out = []
   for arg in args:
     if isinstance(arg, int):
@@ -73,8 +73,8 @@ def _maybeInt(*args, **kwargs) -> Optional[Ints]:
 
 def _maybeFloat(*args, **kwargs) -> Optional[Floats]:
   """Tires to find either the first or all arguments of float type.
-  Arguments of complex type are valid, if either their real or imaginary
-  part is near zero. """
+Arguments of complex type are valid, if either their real or imaginary
+part is near zero. """
   out = []
   for arg in args:
     if isinstance(arg, int):

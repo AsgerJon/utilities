@@ -14,8 +14,8 @@ from vistutils import monoSpace
 
 def applyEnv(**kwargs) -> Optional[list[dict[str, str]]]:
   """The applyEnv function locates environment file .env or .env.example,
-  reads the lines in the file, collects them to a dictionary and finally
-  assigns the key-value pairs as environment variables."""
+reads the lines in the file, collects them to a dictionary and finally
+assigns the key-value pairs as environment variables."""
   lines = loadEnv()
   data = parseEnv(*lines)
   updated = []
@@ -27,6 +27,7 @@ def applyEnv(**kwargs) -> Optional[list[dict[str, str]]]:
   if kwargs.get('verbose', False):
     for item in updated:
       msg = """Updated environment variable <'%s'> from <'%s'> to <'%s'>"""
-      print(monoSpace(msg % (item['key'], item['oldVal'], item['newVal'])))
+      print(monoSpace(
+        msg % (item['key'], item['oldVal'], item['newVal'])))
   if kwargs.get('return', False):
     return updated

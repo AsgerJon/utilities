@@ -17,7 +17,7 @@ from vistutils.dispatcher import Res
 
 class AbstractDispatcher(AbstractDecorator):
   """The AbstractDispatcher provides an abstract baseclass for class
-  decorators allowing decorated classes to run in external terminals. """
+decorators allowing decorated classes to run in external terminals. """
 
   def __init__(self, *args, **kwargs) -> None:
     AbstractDecorator.__init__(self, *args, **kwargs)
@@ -70,18 +70,18 @@ class AbstractDispatcher(AbstractDecorator):
   @abstractmethod
   def _getTempDir(cls) -> str:
     """Subclasses must implement this method to specify the directory to
-    which temp script files are saved."""
+which temp script files are saved."""
 
   @abstractmethod
   def _getTempName(self) -> str:
     """Subclass must implement this method to specify the naming scheme
-    for the temp file name. """
+for the temp file name. """
 
   @classmethod
   @abstractmethod
   def _getMainCode(cls) -> str:
     """Subclasses must implement this method specifying the contents at
-    the end of the file in the __name__ == '__main__' conditional."""
+the end of the file in the __name__ == '__main__' conditional."""
 
   def _getTempCode(self, obj: Any) -> str:
     """Reads and parses the code that would create given object"""
@@ -109,7 +109,9 @@ class AbstractDispatcher(AbstractDecorator):
     mainCode = self._getMainCode()
     print(self.__class__.__qualname__)
     print(mainCode)
-    mainLines = [line.strip() for line in self._getMainCode()] or ['pass']
+    mainLines = [line.strip() for line in self._getMainCode()] or [
+
+      'pass']
     for line in mainLines:
       codeLines.append('%s%s' % (indentation, line))
     out = []
@@ -123,20 +125,20 @@ class AbstractDispatcher(AbstractDecorator):
   @classmethod
   def getHashbang(cls) -> str:
     """Getter-function for the hashbang to be placed at the top of the
-    temp file. This defaults to: #!/usr/bin/env python3"""
+temp file. This defaults to: #!/usr/bin/env python3"""
     return '#!/usr/bin/env python3'
 
   @classmethod
   def getImports(cls) -> list[str]:
     """Getter-function for implicit import statements that are needed in
-    the dispatched temp file, but not in the 'real' file."""
+the dispatched temp file, but not in the 'real' file."""
     return []
 
   @classmethod
   def getTempComment(cls) -> list[str]:
     """AbstractDispatchers will create temporary python files. These files
-    begin with a hashbang following by a comment returned by this method.
-    By default, mentions the name of the class and nothing else:"""
+begin with a hashbang following by a comment returned by this method.
+By default, mentions the name of the class and nothing else:"""
     maxLineLength = os.environ.get('MAX_LINE_LENGTH', 77)
     msg = """AUTO-CREATED TEMP FILE\nCreated by class: '%s' on '%s'"""
     comment = msg % (cls.__qualname__, ctime())
@@ -166,9 +168,9 @@ class AbstractDispatcher(AbstractDecorator):
   @abstractmethod
   def terminal(cls, *args, **kwargs) -> list[str | list[str]]:
     """Subclasses must implement this method to define the terminal
-    commands that will invoke the dispatch script. The return value should
-    be a list of commands. Each command can be a string or a new list of
-    strings. These are then dispatched one at a time consecutively."""
+commands that will invoke the dispatch script. The return value should
+be a list of commands. Each command can be a string or a new list of
+strings. These are then dispatched one at a time consecutively."""
 
   def run(self, *args, **kwargs) -> list[Res]:
     """This method actually runs the dispatched script"""

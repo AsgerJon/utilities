@@ -13,9 +13,9 @@ from vistutils.fields import AbstractField
 
 class Field(AbstractField):
   """Field is a descriptor class. Use with the Acc enum class with
-  instances: GET, SET and DEL to decorate getter, setter and deleter
-  methods. Please note, that the decorator does not wrap the method.
-  Instead, a reference will point the field to decorated method. """
+instances: GET, SET and DEL to decorate getter, setter and deleter
+methods. Please note, that the decorator does not wrap the method.
+Instead, a reference will point the field to decorated method. """
 
   def __init__(self, *args, **kwargs) -> None:
     AbstractField.__init__(self, *args, **kwargs)

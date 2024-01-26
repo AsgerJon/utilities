@@ -11,8 +11,8 @@ from vistutils.metas import AbstractNamespace, Bases
 
 class BaseNamespace(AbstractNamespace):
   """BaseNamespace subclasses the AbstractNamespace and provides standard
-  dictionary behaviour, but includes logging of item accessor method
-  calls. """
+dictionary behaviour, but includes logging of item accessor method
+calls. """
 
   def __init__(self, name: str, bases: Bases, **kwargs) -> None:
     AbstractNamespace.__init__(self, **kwargs)

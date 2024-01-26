@@ -3,7 +3,7 @@
 #  Copyright (c) 2024 Asger Jon Vistisen
 from __future__ import annotations
 
-from typing import Any, Callable, Never
+from typing import Any, Callable
 
 from vistutils.fields import AbstractField
 from vistutils.metas import AbstractMetaclass, BaseNamespace
@@ -52,7 +52,8 @@ class CatSpace(BaseNamespace):
   def __explicit_del_item__(self, key: str, oldVal: Any) -> None:
     """Reimplementation removing keys"""
     if key in self.__defined_keys__:
-      self.__defined_keys__ = [k for k in self.__defined_keys__ if k != key]
+      self.__defined_keys__ = [k for k in self.__defined_keys__ if
+                               k != key]
     return BaseNamespace.__explicit_del_item__(self, key, oldVal)
 
   def getKeys(self) -> list[str]:

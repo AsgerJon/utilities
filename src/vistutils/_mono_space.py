@@ -32,20 +32,20 @@ def _singleSpace(msg: str) -> str:
 
 def monoSpace(msg: str, **kwargs) -> str:
   """The monoSpace function receives a string and returns it with all
-  consecutive white spaces replaced by a single space. Only characters that
-  are recognized as digits, letters or punctuation are included. Include in
-  the string the following tags to explicitly set new lines or indentations:
-    '<br>' for new lines
-    '<n: int>' for indentations of 'n' spaces. (Max is 16)
-    '<tab>' for one tab containing the number of spaces defined at the
-    keyword argument 'tab', by default 2.
-    By default, the UNIX style newline character ('\n') is used. Specify
-    at keyword argument 'newLineChar' to any string or one of:
-    UNIX, WINDOWS, MAC, oldMAC yielding '\n', '\r\n', '\n' or '\r'
-    respectively.
-    To specify a different newline tag than '<br>' use keyword argument
-    newLineTag.
-    """
+consecutive white spaces replaced by a single space. Only characters that
+are recognized as digits, letters or punctuation are included. Include in
+the string the following tags to explicitly set new lines or indentations:
+  '<br>' for new lines
+  '<n: int>' for indentations of 'n' spaces. (Max is 16)
+  '<tab>' for one tab containing the number of spaces defined at the
+  keyword argument 'tab', by default 2.
+  By default, the UNIX style newline character ('\n') is used. Specify
+  at keyword argument 'newLineChar' to any string or one of:
+  UNIX, WINDOWS, MAC, oldMAC yielding '\n', '\r\n', '\n' or '\r'
+  respectively.
+  To specify a different newline tag than '<br>' use keyword argument
+  newLineTag.
+  """
 
   msg = _nonStandardToSpace(msg)
   msg = _singleSpace(msg)

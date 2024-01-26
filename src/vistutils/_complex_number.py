@@ -12,7 +12,7 @@ from vistutils.fields import Field
 
 class ComplexNumber:
   """ComplexNumber represents complex numbers. But really, it demonstrates
-  the use of the Field descriptor class."""
+the use of the Field descriptor class."""
 
   RE = Field()
   IM = Field()

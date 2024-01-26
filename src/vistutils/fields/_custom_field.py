@@ -20,9 +20,9 @@ from vistutils.fields import AbstractField
 
 class CustomField(AbstractField):
   """The CustomField provides a highly flexible descriptor class. Use the
-  'apply' decorator method to decorate methods with a key value pair,
-  with the key indicating the name of the field this method relates to and
-  the value describing what access the method provides."""
+'apply' decorator method to decorate methods with a key value pair,
+with the key indicating the name of the field this method relates to and
+the value describing what access the method provides."""
 
   def __init__(self, *args, **kwargs) -> None:
     self.__default_value__ = None
@@ -47,10 +47,10 @@ class CustomField(AbstractField):
 
   def __prepare_owner__(self, owner) -> type:
     """Implementation of abstract method which searches the namespace of
-    the owning class for the methods that match the field name of the
-    field instance. Please note that the field name is automatically
-    inferred by the __set_name__ method inherited from the abstract
-    baseclass."""
+the owning class for the methods that match the field name of the
+field instance. Please note that the field name is automatically
+inferred by the __set_name__ method inherited from the abstract
+baseclass."""
     for (key, val) in owner.__dict__.items():
       if callable(val):
         if hasattr(val, '__is_decorated__'):

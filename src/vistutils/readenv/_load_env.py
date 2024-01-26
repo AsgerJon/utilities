@@ -11,7 +11,7 @@ from vistutils.readenv import getRoot, readFile, ReadEnvException
 
 def loadEnv(**kwargs) -> list[str]:
   """The load  function locates the environment file, reads the contents and
-  inserts them as environment variables. """
+inserts them as environment variables. """
 
   lines = None
 

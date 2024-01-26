@@ -9,17 +9,17 @@ from __future__ import annotations
 
 from typing import Callable
 
-from utilities import monoSpace
+from vistutils import monoSpace
 from vistutils.fields import AbstractField
 from vistutils.waitaminute import EffortException
 
 
 def apply(*args, **kwargs) -> Callable:
   """The apply function decorates method. The actual return value is
-  another callable which receives the decorated object, sets an attribute on
-  it and returns it again. Please note that the decorated object does not
-  get wrapped, but is returned with the attributes set. Use two positional
-  arguments or any number of keyword arguments."""
+another callable which receives the decorated object, sets an attribute on
+it and returns it again. Please note that the decorated object does not
+get wrapped, but is returned with the attributes set. Use two positional
+arguments or any number of keyword arguments."""
   if args and kwargs:
     e = """Implementing handling of positional arguments mixed with 
     keyword arguments take more effort than the utility is worth. """

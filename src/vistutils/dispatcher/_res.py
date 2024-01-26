@@ -22,7 +22,7 @@ class MetaRes(type):
 
 class Res(metaclass=MetaRes):
   """Res subclasses CompletedProcess from the subprocess module exposing its
-  content in a more flexible manner. """
+content in a more flexible manner. """
 
   out = Field()
   err = Field()

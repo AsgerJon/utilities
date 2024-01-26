@@ -70,7 +70,7 @@ class AbstractDecorator(metaclass=DecMeta):
 
   def __call__(self, *args, **kwargs) -> Any:
     """Handles call. If inner object is not set, this method sets it.
-    Otherwise, a call is made to inner object. """
+Otherwise, a call is made to inner object. """
     if self.__inner_object__ is None:
       if args:
         innerObject = args[0]

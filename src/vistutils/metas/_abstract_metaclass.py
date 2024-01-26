@@ -34,20 +34,20 @@ class AbstractMetaclass(MetaMetaClass, metaclass=MetaMetaClass):
               namespace: Namespace,
               **kwargs) -> type:
     """Remember not to decorate the __new__ method as a class method.
-    Doing so results in undefined behaviour. """
+Doing so results in undefined behaviour. """
     return type.__new__(mcls, name, bases, namespace, **kwargs)
 
   def __init__(cls, *args, **kwargs) -> None:
     """This is the final method called before the class is passed to
-    decorators. """
+decorators. """
     type.__init__(cls, *args, **kwargs)
 
   def __call__(cls, *args, **kwargs) -> Any:
     """This method defines what happens when calling the class itself. By
-    default, this invokes the __new__ defined on the class to create the
-    new instance. Then the __init__ method on the class is called on the
-    new instance. Finally, the new instance is returned. This mirrors the
-    default behaviour of instance creation."""
+default, this invokes the __new__ defined on the class to create the
+new instance. Then the __init__ method on the class is called on the
+new instance. Finally, the new instance is returned. This mirrors the
+default behaviour of instance creation."""
     absMethod = []
     for (key, val) in cls.__dict__.items():
       if callable(val) and hasattr(val, '__isabstractmethod__'):

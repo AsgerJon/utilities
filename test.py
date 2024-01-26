@@ -10,6 +10,6 @@ import sys
 
 class Test:
   """Importing this class adds src to the path where python is looking for
-  modules."""
+modules."""
   here = os.path.dirname(os.path.abspath(__file__))
   sys.path.append(os.path.join(here, 'src'))

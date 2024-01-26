@@ -7,7 +7,7 @@ from __future__ import annotations
 
 class ReadEnvException(Exception):
   """ReadEnvException provides a custom exception class for the readenv
-  module. """
+module. """
 
   def __init__(self, *args) -> None:
     msg, baseExc = None, None

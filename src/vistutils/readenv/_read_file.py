@@ -12,7 +12,7 @@ from vistutils.readenv import ReadEnvException
 
 def readFile(fid: str, **kwargs) -> list[str]:
   """The readFile function receives a file path and returns a list of
-  strings each representing a line in the file."""
+strings each representing a line in the file."""
 
   if not os.path.exists(fid):
     if kwargs.get('strict', True):

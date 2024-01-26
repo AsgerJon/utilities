@@ -10,7 +10,7 @@ from vistutils.waitaminute import EffortException
 
 class ParsingError(Exception):
   """ParsingError should be raised when no available parsing function
-  yielded a desired result from given arguments."""
+yielded a desired result from given arguments."""
 
   def __init__(self, *args, **kwargs) -> None:
     if args and kwargs:

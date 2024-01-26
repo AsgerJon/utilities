@@ -10,7 +10,7 @@ from abc import abstractmethod
 
 class AbstractField:
   """The AbstractField defines an abstract baseclass for descriptor
-  classes."""
+classes."""
 
   def __init__(self, *args, **kwargs) -> None:
     self.__field_name__ = None
@@ -24,4 +24,4 @@ class AbstractField:
   @abstractmethod
   def __prepare_owner__(self, owner: type) -> type:
     """This special abstract method must be implemented by subclasses to
-    install this field into it."""
+install this field into it."""

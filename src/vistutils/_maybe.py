@@ -7,11 +7,11 @@ from __future__ import annotations
 from builtins import tuple
 from typing import Any, Optional, Union
 
-Types = type | list[type] | tuple[type, ...]
-Number = Union[int, float, complex]
-Ints = int | tuple[int, ...] | list[int]
-Floats = float | tuple[float, ...] | list[float]
-Complexes = complex | tuple[complex, ...] | list[complex]
+Types = Union[type, list[type], tuple[type, ...]]
+Number = Union[Union[int, float, complex]]
+Ints = Union[int, tuple[int, ...], list[int]]
+Floats = Union[float, tuple[float, ...], list[float]]
+Complexes = Union[complex, tuple[complex, ...], list[complex]]
 
 
 def maybe(*args, ) -> Any:

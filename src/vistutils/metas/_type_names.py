@@ -3,5 +3,7 @@
 #  Copyright (c) 2024 Asger Jon Vistisen
 from __future__ import annotations
 
-Bases = tuple[type, ...]
+from typing import Tuple
+
+Bases = Tuple[type, ...]
 Namespace = dict

@@ -25,5 +25,5 @@ a dictionary of environment variables."""
   data = {}
   included = [line for line in lines if _includeLine(line)]
   for (key, val) in [_parseLine(line) for line in included]:
-    data |= {key: val}
+    data = {**data, **{key: val}}
   return data

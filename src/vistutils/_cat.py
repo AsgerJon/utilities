@@ -3,7 +3,7 @@
 #  Copyright (c) 2024 Asger Jon Vistisen
 from __future__ import annotations
 
-from typing import Any, Callable
+from typing import Any, Callable, Union
 
 from vistutils.fields import AbstractField
 from vistutils.metas import AbstractMetaclass, BaseNamespace
@@ -72,7 +72,7 @@ class CatSpace(BaseNamespace):
         if entry.get('access', ) == 'SET':
           data = entry.get('val', )
           if isinstance(data, dict):
-            __annotations__ |= data
+            __annotations__ = {**__annotations__, **data}
     return __annotations__
 
   def compile(self) -> None:
@@ -83,11 +83,12 @@ class CatSpace(BaseNamespace):
     for key in self.getKeys():
       val = dict.get(self, key, None)
       if callable(val):
-        callSpace |= {key: val}
+        callSpace = {**callSpace, **{key: val}}
       elif key.startswith('__') and key.endswith('__'):
-        varSpace |= {key: val}
+        varSpace = {**varSpace, **{key: val}}
+
       elif val is None:
-        catSpace |= {key: CatField()}
+        catSpace = {**catSpace, **{key: CatField()}}
     self.__var_space__ = varSpace
     self.__call_space__ = callSpace
     self.__cat_space__ = catSpace
@@ -136,7 +137,7 @@ class CatMeta(AbstractMetaclass):
     namespace.compile()
     variableSpace = namespace.__var_space__
     callSpace = namespace.__call_space__
-    space = variableSpace | callSpace
+    space = {**variableSpace, **callSpace}
     cls = AbstractMetaclass.__new__(mcls, name, (), space, **kwargs)
     catSpace = namespace.__cat_space__
     instances = []
@@ -180,7 +181,7 @@ class CatMeta(AbstractMetaclass):
       return out
     raise StopIteration
 
-  def __getitem__(cls, cat: str | int) -> Any:
+  def __getitem__(cls, cat: Union[str, int]) -> Any:
     """Looks for cat """
     return cls(cat)
 

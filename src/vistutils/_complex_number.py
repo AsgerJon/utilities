@@ -5,7 +5,7 @@ the use of the Field descriptor class."""
 from __future__ import annotations
 
 from math import atan2
-from typing import Optional, Self
+from typing import Optional
 
 from vistutils.fields import Field
 
@@ -23,7 +23,7 @@ the use of the Field descriptor class."""
     self._imaginaryPart = args[1]
 
   @classmethod
-  def clone(cls, *args, **kwargs) -> Self:
+  def clone(cls, *args, **kwargs) -> ComplexNumber:
     """Calls the owner"""
     return cls(*args, **kwargs)
 

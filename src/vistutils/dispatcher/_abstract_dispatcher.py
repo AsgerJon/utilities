@@ -14,6 +14,10 @@ from vistutils import monoSpace
 from vistutils.decorators import AbstractDecorator
 from vistutils.dispatcher import Res
 
+from typing import Union, List
+
+COMMANDS = Union[str, List[str]]
+
 
 class AbstractDispatcher(AbstractDecorator):
   """The AbstractDispatcher provides an abstract baseclass for class
@@ -129,13 +133,13 @@ temp file. This defaults to: #!/usr/bin/env python3"""
     return '#!/usr/bin/env python3'
 
   @classmethod
-  def getImports(cls) -> list[str]:
+  def getImports(cls) -> List[str]:
     """Getter-function for implicit import statements that are needed in
 the dispatched temp file, but not in the 'real' file."""
     return []
 
   @classmethod
-  def getTempComment(cls) -> list[str]:
+  def getTempComment(cls) -> List[str]:
     """AbstractDispatchers will create temporary python files. These files
 begin with a hashbang following by a comment returned by this method.
 By default, mentions the name of the class and nothing else:"""
@@ -166,13 +170,13 @@ By default, mentions the name of the class and nothing else:"""
 
   @classmethod
   @abstractmethod
-  def terminal(cls, *args, **kwargs) -> list[str | list[str]]:
+  def terminal(cls, *args, **kwargs) -> COMMANDS:
     """Subclasses must implement this method to define the terminal
 commands that will invoke the dispatch script. The return value should
 be a list of commands. Each command can be a string or a new list of
 strings. These are then dispatched one at a time consecutively."""
 
-  def run(self, *args, **kwargs) -> list[Res]:
+  def run(self, *args, **kwargs) -> List[Res]:
     """This method actually runs the dispatched script"""
     out = []
     for line in self.terminal():

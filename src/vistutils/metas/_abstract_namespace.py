@@ -52,42 +52,42 @@ invoke this method to disable logging."""
   @abstractmethod
   def __explicit_get_item__(self, key: str, ) -> Any:
     """Explicit item retrieval. Subclasses are free to implement this
-method. By default, the parent method from 'dict' is called.
-:param key: The key to retrieve
-:type key: str
-:return: The value return by the namespace in response to the key
-:rtype: Any
-"""
+    method. By default, the parent method from 'dict' is called.
+    :param key: The key to retrieve
+    :type key: str
+    :return: The value return by the namespace in response to the key
+    :rtype: Any
+    """
 
   @abstractmethod
   def __explicit_set_item__(self, key: str, Val: Any, old: Any) -> None:
     """Explicit item value setting.  Subclasses are free to implement this
-method. By default, the parent method from 'dict' is called.
-:param key: The key to set
-:type key: str
-:param Val: The new value attempted to be set at given key
-:type Val: Any
-:param old: The existing value returned on the given key
-:type old: Any
-"""
+    method. By default, the parent method from 'dict' is called.
+    :param key: The key to set
+    :type key: str
+    :param Val: The new value attempted to be set at given key
+    :type Val: Any
+    :param old: The existing value returned on the given key
+    :type old: Any
+    """
 
   @abstractmethod
   def __explicit_del_item__(self, key: str, oldVal: Any) -> None:
     """Explicit item deletion. Subclasses are free to implement this
-method. By default, the parent method from 'dict' is called.
-:param key: The key to delete
-:type key: str
-:param oldVal: The existing value returned on the given key
-:type oldVal: Any
-"""
+    method. By default, the parent method from 'dict' is called.
+    :param key: The key to delete
+    :type key: str
+    :param oldVal: The existing value returned on the given key
+    :type oldVal: Any
+    """
 
   def __getitem__(self, key: str) -> Any:
     """Item retrieval. Subclasses must not reimplement this method!
-:param key: The key to retrieve
-:type key: str
-:return: The value return by the namespace in response to the key
-:rtype: Any
-"""
+    :param key: The key to retrieve
+    :type key: str
+    :return: The value return by the namespace in response to the key
+    :rtype: Any
+    """
     try:
       dict.__getitem__(self, key)
     except KeyError as keyError:

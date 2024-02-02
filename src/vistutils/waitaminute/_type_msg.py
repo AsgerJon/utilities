@@ -29,4 +29,4 @@ expType: The expected type of the object
   expTypeName = expType.__qualname__
   e = """Expected object at name: '%s' to be of type '%s' but received 
   '%s' of type: '%s'!"""
-  return e % (name, actStr, actTypeName, expTypeName)
+  return e % (name, actTypeName, actStr, expTypeName)

@@ -21,26 +21,39 @@ class ClassField(AbstractField):
 
   def __instantiate_inner_class__(self, instance: Any, owner: type) -> None:
     """Instantiates the inner class. """
-    if self.__creator_function__ is not None:
-      if callable(self.__creator_function__):
-        if hasattr(self.__creator_function__, '__self__'):
-          return self.__creator_function__(instance, owner)
-        return self.__creator_function__(self, instance, owner)
-      e = typeMsg('__creator_function__', self.__creator_function__,
-                  Callable)
-      raise TypeError(e)
-    innerClass = self._getInnerClass()
-    return innerClass(self, instance, owner)
+    args, kwargs = self._getArgs(), self._getKwargs()
+    creator = self._getCreatorFunction()
+    pvtName = self._getPrivateName()
+    innerInstance = creator(instance, owner, *args, **kwargs)
+    setattr(instance, pvtName, innerInstance)
+
+  def _getCreatorFunction(self) -> Callable:
+    """Getter-function for creator function. Defaults to calling the inner
+    class itself"""
+    if self.__creator_function__ is None:
+      def creator(*args, **kwargs) -> Any:
+        """Fallback creator calling the function itself"""
+        args, kwargs = self._getArgs(), self._getKwargs()
+        innerClass = self._getInnerClass()
+        return innerClass(*args, **kwargs)
+
+      return creator
+    if callable(self.__creator_function__):
+      return self.__creator_function__
+    e = typeMsg('__creator_function__', self.__creator_function__, Callable)
+    raise TypeError(e)
 
   def _getInnerClass(self) -> type:
     """Getter-function for the inner-class"""
     return self.__inner_class__
 
-  def __init__(self, innerClass: Any, *args, **kwargs) -> None:
-    AbstractField.__init__(self, *args, **kwargs)
-    self.__inner_class__ = None
+  def __init__(self,
+               innerClass: Any,
+               *args, **kwargs) -> None:
+    AbstractField.__init__(self, )
+    self.__positional_arguments__ = [*args, ]
+    self.__keyword_arguments__ = {**kwargs, }
     self.__inner_creator__ = None
-    self.__default_inner_instance__ = None
     self.__inner_class__ = None
     self.__creator_function__ = None
     if innerClass is None:
@@ -51,9 +64,24 @@ class ClassField(AbstractField):
     else:
       e = typeMsg('innerClass', innerClass, type)
       raise TypeError(e)
-    for arg in args:
-      if callable(arg) and self.__creator_function__ is None:
-        self.__creator_function__ = arg
+    if 'creator' in self.__keyword_arguments__:
+      creator = self.__keyword_arguments__.get('creator')
+      if callable(creator):
+        self.__creator_function__ = creator
+      else:
+        e = typeMsg('__creator_function__', self.__creator_function__,
+                    Callable)
+        raise TypeError(e)
+
+  def _getArgs(self) -> list:
+    """Getter-function for the list containing the positional arguments
+    given to the constructor. """
+    return self.__positional_arguments__
+
+  def _getKwargs(self, ) -> dict:
+    """Getter-function for the dictionary containing the keyword
+    arguments given to the constructor. """
+    return self.__keyword_arguments__
 
   def __get__(self, instance: Any, owner: type, **kwargs) -> Any:
     """Getter-function implementation"""
@@ -62,11 +90,10 @@ class ClassField(AbstractField):
       return self.__inner_class__
     if hasattr(instance, pvtName):
       return getattr(instance, pvtName)
-    if instance is None:
-      if kwargs.get('_recursion', False):
-        raise RecursionError
-      self.__instantiate_inner_class__(instance, owner)
-      return self.__get__(instance, owner, _recursion=True)
+    if kwargs.get('_recursion', False):
+      raise RecursionError
+    self.__instantiate_inner_class__(instance, owner)
+    return self.__get__(instance, owner, _recursion=True)
 
   def __set__(self, instance: Any, value: Any) -> Never:
     """Not yet implemented!"""

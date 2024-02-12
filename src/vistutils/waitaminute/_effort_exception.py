@@ -5,6 +5,8 @@ benefit or utility."""
 #  Copyright (c) 2024 Asger Jon Vistisen
 from __future__ import annotations
 
+from vistutils import monoSpace
+
 
 class EffortException(Exception):
   """EffortException is raised were functionality would logically be expected
@@ -13,3 +15,9 @@ benefit or utility."""
 
   def __init__(self, *args, **kwargs) -> None:
     Exception.__init__(self, *args)
+
+  def __str__(self, ) -> str:
+    """String representation"""
+    e = """Implementing given feature would require more effort than the 
+    utility might be worth."""
+    return monoSpace(e)

@@ -13,6 +13,8 @@ from __future__ import annotations
 
 from typing import Any
 
+from vistutils import monoSpace
+
 
 def typeMsg(name: str, actObj: Any, expType: type) -> str:
   """The typeMsg module creates a standardized message for type errors where
@@ -29,4 +31,4 @@ expType: The expected type of the object
   expTypeName = expType.__qualname__
   e = """Expected object at name: '%s' to be of type '%s' but received 
   '%s' of type: '%s'!"""
-  return e % (name, actTypeName, actStr, expTypeName)
+  return monoSpace(e % (name, expTypeName, actStr, actTypeName))

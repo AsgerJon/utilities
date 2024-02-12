@@ -15,7 +15,7 @@ Complexes = Union[complex, tuple[complex, ...], list[complex]]
 
 
 def maybe(*args) -> Any:
-  """Returns the first positional argument that is not None"""
+  """Returns the first positional argument that is not None."""
   for arg in args:
     if arg is not None:
       return arg

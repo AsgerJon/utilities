@@ -26,9 +26,7 @@ custom class as the namespace object, you acknowledge that:
 #  Copyright (c) 2024 Asger Jon Vistisen
 from __future__ import annotations
 
-from vistutils.metas import Bases
-
-from morevistutils.metas import BaseNamespace
+from vistutils.metas import Bases, BaseNamespace
 
 
 class MetaMetaClass(type):

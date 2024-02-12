@@ -14,6 +14,13 @@ Floats = Union[float, tuple[float, ...], list[float]]
 Complexes = Union[complex, tuple[complex, ...], list[complex]]
 
 
+def maybe(*args) -> Any:
+  """Returns the first positional argument that is not None"""
+  for arg in args:
+    if arg is not None:
+      return arg
+
+
 def _isInt(arg: Any) -> Any:
   """Recognizes arg as int if possible"""
   if isinstance(arg, int):

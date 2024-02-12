@@ -4,5 +4,5 @@
 from __future__ import annotations
 
 from ._abstract_field import AbstractField
-from ._apply import apply
 from ._field import Field
+from ._class_field import ClassField

@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import os
 
-from morevistutils import loadEnv
+from vistutils import loadEnv
 
 
 def applyEnv() -> None:

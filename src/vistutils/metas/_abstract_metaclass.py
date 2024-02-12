@@ -1,12 +1,34 @@
-"""AbstractMetaclass provides an abstract metaclass. """
+"""AbstractMetaclass provides convenient access to the power of the custom
+metaclass. The simplest use is to create a subclass of AbstractNamespace
+and then reimplement __prepare__ in the custom metaclass to return an
+instance of the namespace class.
+
+You don't need to read further.
+
+You can expand upon class functionality by reimplementing more methods in
+the AbstractMetaclass, but doing so incurs risk of subtle bugs that are
+very difficult to find. Nevertheless, some advanced behaviour does require
+reimplementation of other methods in this class. Such as when controlling
+the creation of instances of the new class.
+
+Thank you for reading to the end of this documentation!
+
+.
+
+
+If you reimplement AbstractMetaclass, by introducing an entirely
+custom class as the namespace object, you acknowledge that:
+  - You are on your own. ChatGPT will not help you here.
+  - Highly undefined behaviour is likely.
+  - There are no dragons here. Anymore.
+  - [REDACTED COGNITO HAZARD]"""
 #  MIT Licence
 #  Copyright (c) 2024 Asger Jon Vistisen
 from __future__ import annotations
 
-from typing import Any
+from vistutils.metas import Bases
 
-from vistutils import monoSpace
-from vistutils.metas import Bases, Namespace, BaseNamespace
+from morevistutils.metas import BaseNamespace
 
 
 class MetaMetaClass(type):
@@ -24,55 +46,16 @@ class AbstractMetaclass(MetaMetaClass, metaclass=MetaMetaClass):
   @classmethod
   def __prepare__(mcls, name: str, bases: Bases, **kwargs) -> dict:
     """This method creates the namespace object for the class. """
-    namespace = BaseNamespace(name, bases, **kwargs)
-    namespace.setMetaclass(mcls)
-    return namespace
+    return BaseNamespace(mcls, name, bases, **kwargs)
 
-  def __new__(mcls,
-              name: str,
-              bases: Bases,
-              namespace: Namespace,
+  def __new__(mcls, name: str, bases: Bases, namespace: BaseNamespace,
               **kwargs) -> type:
-    """Remember not to decorate the __new__ method as a class method.
-Doing so results in undefined behaviour. """
-    return type.__new__(mcls, name, bases, namespace, **kwargs)
+    """Do not explicitly decorate this method with the classmethod
+    decorator!"""
+    cls = type.__new__(mcls, name, bases, namespace.compile(), **kwargs)
+    setattr(cls, '__namespace_object__', namespace)
+    return cls
 
-  def __init__(cls, *args, **kwargs) -> None:
-    """This is the final method called before the class is passed to
-decorators. """
-    type.__init__(cls, *args, **kwargs)
-
-  def __call__(cls, *args, **kwargs) -> Any:
-    """This method defines what happens when calling the class itself. By
-default, this invokes the __new__ defined on the class to create the
-new instance. Then the __init__ method on the class is called on the
-new instance. Finally, the new instance is returned. This mirrors the
-default behaviour of instance creation."""
-    absMethod = []
-    for (key, val) in cls.__dict__.items():
-      if callable(val) and hasattr(val, '__isabstractmethod__'):
-        if getattr(val, '__isabstractmethod__'):
-          absMethod.append(val)
-        if absMethod:
-          e = """Tried to instantiate class: '%s', but this class does not 
-          implement all abstract methods! The following abstract methods 
-          are not implemented:""" % cls.__qualname__
-          header = monoSpace(e)
-          e = '<br><tab>'.join([f.__name__ for f in absMethod])
-          itemized = monoSpace(e)
-          raise TypeError('%s\n%s' % (header, itemized))
-
-    if not hasattr(cls, '__new__'):
-      return type.__call__(cls, *args, **kwargs)
-    __new__ = getattr(cls, '__new__')
-    __init__ = getattr(cls, '__init__', None)
-    self = __new__(cls)
-    if callable(__init__):
-      if hasattr(__init__, '__self__'):
-        __init__(*args, **kwargs)
-      else:
-        __init__(self, *args, **kwargs)
-      return self
-    else:
-      object.__init__(self)
-      return self
+  def __init__(cls, name: str, bases: Bases, namespace: BaseNamespace,
+               **kwargs) -> None:
+    type.__init__(cls, name, bases, namespace, **kwargs)

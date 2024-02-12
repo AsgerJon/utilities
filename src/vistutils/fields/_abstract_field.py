@@ -7,6 +7,8 @@ from __future__ import annotations
 
 from abc import abstractmethod
 
+from vistutils.waitaminute import typeMsg
+
 
 class AbstractField:
   """The AbstractField defines an abstract baseclass for descriptor
@@ -21,7 +23,6 @@ classes."""
     self.__field_name__ = name
     self.__prepare_owner__(owner)
 
-  @abstractmethod
   def __prepare_owner__(self, owner: type) -> type:
     """This special abstract method must be implemented by subclasses to
 install this field into it."""

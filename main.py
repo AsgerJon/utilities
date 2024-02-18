@@ -42,5 +42,13 @@ def tester02() -> None:
     print(item, type(item))
 
 
+def test(a=None, b=None) -> None:
+  """LMAO"""
+
+
 if __name__ == '__main__':
   tester02()
+
+  lol = lambda a, b: a + b
+
+  test(1, 2, 3)

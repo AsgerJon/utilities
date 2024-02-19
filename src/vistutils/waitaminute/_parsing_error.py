@@ -4,7 +4,7 @@ yielded a desired result from given arguments."""
 #  Copyright (c) 2024 Asger Jon Vistisen
 from __future__ import annotations
 
-from vistutils import maybeType
+from vistutils.parse import maybeType
 from vistutils.waitaminute import EffortException
 
 

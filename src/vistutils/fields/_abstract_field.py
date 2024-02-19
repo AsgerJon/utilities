@@ -5,8 +5,6 @@ automatically by the __set_name__ method. """
 #  Copyright (c) 2024 Asger Jon Vistisen
 from __future__ import annotations
 
-from abc import abstractmethod
-
 from vistutils.waitaminute import typeMsg
 
 
@@ -25,7 +23,7 @@ classes."""
 
   def __prepare_owner__(self, owner: type) -> type:
     """This special abstract method must be implemented by subclasses to
-install this field into it."""
+    install this field into it."""
 
   def _getFieldOwner(self) -> type:
     """Getter-function for field owner"""

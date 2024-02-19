@@ -7,10 +7,11 @@ import os
 import sys
 from typing import Never
 
+from tester_class_01 import Point
+from vistutils.dirs import Dream
 from vistutils.waitaminute import typeMsg, EffortException
 
-from test import Test
-from vistutils import maybe
+from vistutils.parse import maybe
 
 
 def LOL_NO() -> Never:
@@ -20,7 +21,7 @@ def LOL_NO() -> Never:
 
 def tester00() -> None:
   """Hello world"""
-  stuff = [os, sys, Test, maybe]
+  stuff = [os, sys, maybe]
   for item in stuff:
     print(item)
 
@@ -42,13 +43,21 @@ def tester02() -> None:
     print(item, type(item))
 
 
-def test(a=None, b=None) -> None:
-  """LMAO"""
+def tester03() -> None:
+  """Let's call print from a lambda"""
+  callMeMaybe = lambda hereIsMyNumber: print(hereIsMyNumber)
+  callMeMaybe('So call me maybe')
 
 
-if __name__ == '__main__':
-  tester02()
+def tester04() -> None:
+  """Testing EZData"""
+  p = Point(1, 2)
+  print(p)
+  p.x = 3
+  p.y = 4
+  print(p)
+  print(p.x, p.y)
 
-  lol = lambda a, b: a + b
 
-  test(1, 2, 3)
+with Dream(tester04) @ 'lmao.env' as dream:
+  dream()

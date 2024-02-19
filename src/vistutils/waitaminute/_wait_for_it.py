@@ -4,9 +4,8 @@ used, where a proper implementation is intended for future release. """
 #  Copyright (c) 2024 Asger Jon Vistisen
 from __future__ import annotations
 
-from typing import Any
-
-from vistutils import maybeType, monoSpace, maybe
+from vistutils.parse import maybeType, maybe
+from vistutils.text import monoSpace
 
 
 class WaitForIt(Warning):

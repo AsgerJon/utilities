@@ -36,20 +36,28 @@ custom class as the namespace object, you acknowledge that:
 from __future__ import annotations
 
 from abc import abstractmethod
-from typing import Any
+from typing import Any, Callable
 
-from icecream import ic
-
-ic.configureOutput(includeContext=True)
+from vistutils.metas import Bases
 
 
 class AbstractNamespace(dict):
   """AbstractNameSpace an abstract baseclass for custom namespace classes
 used in custom metaclasses."""
 
-  def __init__(self, *args, **kwargs) -> None:
+  def __init__(self,
+               mcls: type,
+               name: str,
+               bases: Bases,
+               *args, **kwargs) -> None:
     dict.__init__(self, *args, **kwargs)
+    self.__meta_class__ = mcls
+    self.__class_name__ = name
+    self.__class_bases__ = bases
+    self.__positional_arguments__ = args
+    self.__keyword_arguments__ = kwargs
     self.__access_log__ = []
+    self['__init_subclass__'] = lambda *__, **_: None
 
   def __getitem__(self, key: str) -> Any:
     """Item retrieval"""

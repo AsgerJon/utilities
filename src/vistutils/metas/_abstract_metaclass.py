@@ -26,7 +26,7 @@ custom class as the namespace object, you acknowledge that:
 #  Copyright (c) 2024 Asger Jon Vistisen
 from __future__ import annotations
 
-from vistutils.metas import Bases, BaseNamespace
+from vistutils.metas import Bases, BaseNamespace, AbstractNamespace
 
 
 class MetaMetaClass(type):
@@ -46,14 +46,29 @@ class AbstractMetaclass(MetaMetaClass, metaclass=MetaMetaClass):
     """This method creates the namespace object for the class. """
     return BaseNamespace(mcls, name, bases, **kwargs)
 
-  def __new__(mcls, name: str, bases: Bases, namespace: BaseNamespace,
+  def __new__(mcls, name: str, bases: Bases, namespace: dict,
               **kwargs) -> type:
-    """Do not explicitly decorate this method with the classmethod
+    """Do not explicitly decorate this method with the '@classmethod'
     decorator!"""
-    cls = type.__new__(mcls, name, bases, namespace.compile(), **kwargs)
+    if isinstance(namespace, AbstractNamespace):
+      attrs = namespace.compile()
+    else:
+      attrs = namespace
+    if not isinstance(attrs, dict):
+      e = """Failed to obtain an instance of 'dict' from the given 
+      namespace. This object must either be an instance of 'dict' 
+      directly, or they must implement a method called 'compile' that 
+      builds an appropriate instance of 'dict'."""
+      raise TypeError(e)
+    try:
+      cls = type.__new__(mcls, name, bases, attrs, **kwargs)
+    except TypeError as typeError:
+      if 'takes no keyword arguments' in str(typeError):
+        try:
+          cls = type.__new__(mcls, name, bases, attrs, )
+        except Exception as exception:
+          raise exception from typeError
+      else:
+        raise typeError
     setattr(cls, '__namespace_object__', namespace)
     return cls
-
-  def __init__(cls, name: str, bases: Bases, namespace: BaseNamespace,
-               **kwargs) -> None:
-    type.__init__(cls, name, bases, namespace, **kwargs)

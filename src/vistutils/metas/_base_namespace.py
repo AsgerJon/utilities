@@ -14,7 +14,7 @@ class BaseNamespace(AbstractNamespace):
   calls. """
 
   def __init__(self, mcls: type, name: str, bases: Bases, **kwargs) -> None:
-    AbstractNamespace.__init__(self, **kwargs)
+    AbstractNamespace.__init__(self, mcls, name, bases, **kwargs)
     self.__meta_class__ = mcls
     self.__class_name__ = name
     self.__class_bases__ = bases

@@ -5,4 +5,4 @@ stream. """
 from __future__ import annotations
 
 class Dream:
-  raise NotImplementedError  # Causes unpredictable behaviour!
+  pass

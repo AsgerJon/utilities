@@ -6,15 +6,11 @@ from __future__ import annotations
 
 from typing import Any, Callable
 
-from icecream import ic
-
-from vistutils import monoSpace
+from vistutils.text import monoSpace
 from vistutils.ezdata import resolveType, createDefaultInstance
 from vistutils.fields import TypedField
 from vistutils.metas import AbstractNamespace
 from vistutils.waitaminute import typeMsg
-
-ic.configureOutput(includeContext=True)
 
 
 class EZNamespace(AbstractNamespace):

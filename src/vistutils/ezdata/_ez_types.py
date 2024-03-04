@@ -4,7 +4,7 @@
 from __future__ import annotations
 import builtins
 from typing import Any
-from vistutils import monoSpace
+from vistutils.text import monoSpace
 
 
 def getCommonDefaults() -> dict[type, Any]:

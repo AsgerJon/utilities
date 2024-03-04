@@ -8,24 +8,20 @@ from __future__ import annotations
 
 from typing import Callable, Any
 
-from vistutils.fields import AbstractField
+from vistutils.fields import CoreDescriptor
 
 
-class Field(AbstractField):
+class Field(CoreDescriptor):
   """Field is a descriptor class. Use with the Acc enum class with
 instances: GET, SET and DEL to decorate getter, setter and deleter
 methods. Please note, that the decorator does not wrap the method.
 Instead, a reference will point the field to decorated method. """
 
   def __init__(self, *args, **kwargs) -> None:
-    AbstractField.__init__(self, *args, **kwargs)
+    CoreDescriptor.__init__(self, *args, **kwargs)
     self.__getter_function__ = None
     self.__setter_function__ = None
     self.__deleter_function__ = None
-
-  def __prepare_owner__(self, owner: type) -> type:
-    """Implementation of the abstract method"""
-    return owner
 
   def _setGetter(self, callMeMaybe: Callable) -> Callable:
     """Sets the getter"""
@@ -63,7 +59,7 @@ Instead, a reference will point the field to decorated method. """
     """Getter-function for the getter"""
     return self.__deleter_function__
 
-  def __get__(self, instance: Any, owner: type) -> Any:
+  def __get__(self, instance: Any, owner: type, **kwargs) -> Any:
     """Implementation of getter"""
     getter = self._getGetter()
     if getter is None:

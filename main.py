@@ -8,7 +8,6 @@ import sys
 from typing import Never
 
 from tester_class_01 import Point
-from vistutils.dirs import Dream
 from vistutils.waitaminute import typeMsg, EffortException
 
 from vistutils.parse import maybe
@@ -59,5 +58,5 @@ def tester04() -> None:
   print(p.x, p.y)
 
 
-with Dream(tester04) @ 'lmao.env' as dream:
-  dream()
+if __name__ == '__main__':
+  tester04()

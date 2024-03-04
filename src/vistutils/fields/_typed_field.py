@@ -4,13 +4,14 @@
 from __future__ import annotations
 
 from logging import warning
-from typing import Any, Callable
+from typing import Any
 
-from vistutils.fields import AbstractField
+from vistutils.fields import CoreDescriptor
+from vistutils.text import monoSpace
 from vistutils.waitaminute import typeMsg
 
 
-class TypedField(AbstractField):
+class TypedField(CoreDescriptor):
   """TypedField provides a strongly typed descriptor class"""
 
   @classmethod
@@ -73,75 +74,62 @@ class TypedField(AbstractField):
       raise TypeError(e)
 
   def __init__(self, *args, **kwargs) -> None:
-    self.__field_index__ = None
-    self.__support_init__ = kwargs.get('supportInit', False)
-    AbstractField.__init__(self, *args)
-    _parsed = self._parseArgs(*args, **kwargs)
-    self.__value_type__ = _parsed.get('valType', None)
-    if self.__value_type__ is None:
-      raise ValueError('No value type defined')
-    self.__def_value__ = _parsed.get('defVal', None)
+    """Initializes the TypedField"""
+    CoreDescriptor.__init__(self, *args, **kwargs)
+    parsed = self._parseArgs(*args, **kwargs)
+    self.__default_value__ = parsed['defVal']
+    self.__field_type__ = parsed['valType']
 
-  def getType(self, ) -> tuple[type]:
-    """Getter-function for the type"""
-    return self.__value_type__,
+  def _getDefaultValue(self) -> Any:
+    """Returns the default value."""
+    if self.__default_value__ is not None:
+      if isinstance(self.__default_value__, self._getFieldType()):
+        return self.__default_value__
+      e = typeMsg('defaultValue',
+                  self.__default_value__,
+                  self._getFieldType())
+      raise TypeError(e)
+    e = """This instance of TypedField provides no default value!"""
+    raise ValueError(e)
 
-  def __get__(self, instance: Any, owner: type, **kwargs) -> Any:
-    """Get the value of the field"""
-    pvtName = self._getPrivateName()
+  def _getFieldType(self) -> type:
+    """Returns the field type."""
+    if self.__field_type__ is not None:
+      return self.__field_type__
+    e = """This instance of TypedField provides no field type!"""
+    raise ValueError(e)
+
+  def _instantiate(self, instance: object, owner: type = None) -> None:
+    """Instantiates the field"""
+    setattr(instance, self._getPrivateName(), self._getDefaultValue())
+
+  def __get__(self, instance: object, owner: type, **kwargs) -> Any:
+    """Returns the value of the field"""
     if instance is None:
-      return self.__get__(owner, owner)
-    if hasattr(instance, pvtName):
-      return getattr(instance, pvtName)
+      return self
+    pvtName = self._getPrivateName()
+    if getattr(instance, pvtName, None) is not None:
+      value = getattr(instance, pvtName)
+      if isinstance(value, self._getFieldType()):
+        return value
+      e = typeMsg('value', value, self._getFieldType())
+      raise TypeError(e)
     if kwargs.get('_recursion', False):
       raise RecursionError
-    setattr(instance, pvtName, self.__def_value__)
+    self._instantiate(instance, owner)
     return self.__get__(instance, owner, _recursion=True)
 
-  def __set__(self, instance: object, value: Any) -> None:
-    """Set the value of the field"""
-    pvtName = self._getPrivateName()
-    valType = self.getType()
-    if isinstance(value, valType):
-      setattr(instance, pvtName, value)
-    else:
-      e = typeMsg('value', value, *valType)
-      raise TypeError(e)
+  def __set__(self, instance: object, value: object) -> None:
+    """Sets the value of the field"""
+    if isinstance(value, self._getFieldType()):
+      return setattr(instance, self._getPrivateName(), value)
+    e = typeMsg('value', value, self._getFieldType())
+    raise TypeError(e)
 
   def __delete__(self, instance: object) -> None:
-    """Delete the value of the field"""
+    """Deletes the value of the field"""
     pvtName = self._getPrivateName()
     if hasattr(instance, pvtName):
-      delattr(instance, pvtName)
-    else:
-      raise AttributeError('No attribute named: %s' % pvtName)
-
-  def __prepare_owner__(self, owner: type) -> type:
-    """Hook into __init__ of owner"""
-    if not hasattr(owner, '__typed_fields__'):
-      setattr(owner, '__init__', self._preInitFactory(owner))
-    existingFields = getattr(owner, '__typed_fields__', [])
-    initFields = getattr(owner, '__init_fields__', [])
-    self.__field_index__ = len(initFields)
-    setattr(owner, '__typed_fields__', [self, *existingFields])
-    if self.__support_init__:
-      setattr(owner, '__init_fields__', [self, *initFields])
-
-    return owner
-
-  @staticmethod
-  def _preInitFactory(owner) -> Callable:
-    """Creates the pre-init hook"""
-    existingInit = getattr(owner, '__init__', )
-
-    def newInit(this, *args, **kwargs) -> None:
-      """The pre-init hook"""
-      initFields = getattr(owner, '__init_fields__', [])
-      for (i, (field, arg)) in enumerate(zip(initFields, args)):
-        field = initFields[i]
-        name = field.__field_name__
-        if name not in kwargs:
-          field.__set__(this, arg)
-      existingInit(this, *args, **kwargs)
-
-    return newInit
+      return delattr(instance, pvtName)
+    e = """The instance: '%s' has no attribute at given name: '%s'!"""
+    raise AttributeError(monoSpace(e % (instance, pvtName)))

@@ -3,7 +3,7 @@
 #  Copyright (c) 2024 Asger Jon Vistisen
 from __future__ import annotations
 
-from _dep.morevistutils import TypedField
+from vistutils.fields import TypedField
 
 
 class Flag(TypedField):

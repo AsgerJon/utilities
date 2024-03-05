@@ -5,10 +5,9 @@ from __future__ import annotations
 
 from typing import Any
 
+from vistutils.fields import unParseArgs
 from vistutils.parse import maybe
 from vistutils.waitaminute import typeMsg
-
-from _dep.morevistutils import unParseArgs
 
 
 class CoreDescriptor:

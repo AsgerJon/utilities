@@ -5,20 +5,22 @@ from __future__ import annotations
 
 from typing import Any
 
-from vistutils.fields import TypedField
+from vistutils.fields import ImmutableDescriptor
 
 
-class IntField(TypedField):
+class IntField(ImmutableDescriptor):
   """The IntField class provides a strongly typed descriptor containing
   integers."""
 
   __default_value__ = None
   __fallback_value__ = 0
 
-  @staticmethod
-  def getFieldType() -> type:
-    """Returns the field type."""
-    return int
+  def __init__(self, *args, **kwargs) -> None:
+    ImmutableDescriptor.__init__(self, int, *args, **kwargs)
+    for arg in args:
+      if isinstance(arg, int) and self.__default_value__ is None:
+        self.__default_value__ = arg
+        break
 
   def getDefaultValue(self) -> Any:
     """Returns the default value."""

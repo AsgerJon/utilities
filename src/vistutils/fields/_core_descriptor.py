@@ -3,10 +3,12 @@
 #  Copyright (c) 2024 Asger Jon Vistisen
 from __future__ import annotations
 
+from abc import abstractmethod
 from typing import Any
 
 from vistutils.fields import unParseArgs
 from vistutils.parse import maybe
+from vistutils.text import monoSpace
 from vistutils.waitaminute import typeMsg
 
 
@@ -72,11 +74,17 @@ class CoreDescriptor:
       return getattr(instance, pvtName)
     return self
 
+  @abstractmethod
   def __set__(self, instance: object, value: Any) -> None:
     """Sets the field."""
-    args, kwargs = unParseArgs(value)
-    self.__positional_args__ = args
-    self.__keyword_args__ = kwargs
+
+  def __delete__(self, instance: object) -> None:
+    """Deletes the field."""
+    pvtName = self._getPrivateName()
+    if hasattr(instance, pvtName):
+      return delattr(instance, pvtName)
+    e = """The instance: '%s' has no attribute at given name: '%s'!"""
+    raise AttributeError(monoSpace(e % (instance, pvtName)))
 
   def _getPrivateArgsName(self) -> str:
     """Getter-function for getting the private args name."""

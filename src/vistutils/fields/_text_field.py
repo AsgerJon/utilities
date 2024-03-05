@@ -5,10 +5,10 @@ from __future__ import annotations
 
 from typing import Any
 
-from vistutils.fields import TypedField
+from vistutils.fields import MutableDescriptor
 
 
-class TextField(TypedField):
+class TextField(MutableDescriptor):
   """The TextField class provides a strongly typed descriptor containing
   text."""
 
@@ -16,15 +16,8 @@ class TextField(TypedField):
   __fallback_value__ = ''
 
   def __init__(self, *args, **kwargs) -> None:
+    MutableDescriptor.__init__(self, str, *args, **kwargs)
     for arg in args:
-      if isinstance(arg, str):
-        TypedField.__init__(self, str, arg)
+      if isinstance(arg, str) and self.__default_value__ is None:
+        self.__default_value__ = arg
         break
-    else:
-      TypedField.__init__(self, str, )
-
-  def getDefaultValue(self) -> Any:
-    """Returns the default value."""
-    if self.__default_value__ is None:
-      return self.__fallback_value__
-    return self.__default_value__

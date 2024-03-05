@@ -1,8 +1,9 @@
-"""The fields module provide a collection of descriptor classes. """
+"""The fields module provides a collection of descriptor classes. """
 #  MIT Licence
 #  Copyright (c) 2024 Asger Jon Vistisen
 from __future__ import annotations
 
+from ._static_field import StaticField
 from ._unparse_args import unParseArgs
 from ._core_descriptor import CoreDescriptor
 from ._typed_field import TypedField

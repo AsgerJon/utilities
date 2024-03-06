@@ -28,7 +28,7 @@ from typing import Any
 from vistutils.fields import CoreDescriptor
 from vistutils.waitaminute import typeMsg
 
-  
+
 class ImmutableDescriptor(CoreDescriptor):
   """The ImmutableDescriptor provides a descriptor supporting immutable
   values. This means that the setter will always discard the existing value

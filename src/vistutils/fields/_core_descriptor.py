@@ -87,37 +87,17 @@ class CoreDescriptor:
     e = """The instance: '%s' has no attribute at given name: '%s'!"""
     raise AttributeError(monoSpace(e % (instance, pvtName)))
 
-  def _getPrivateArgsName(self) -> str:
-    """Getter-function for getting the private args name."""
-    return '__%s_args__' % self._getFieldName()
-
-  def _getPrivateArgs(self) -> tuple:
-    """Getter-function for getting the private args."""
-    return maybe(self.__positional_args__, [])
-
-  def _getPrivateKwargsName(self) -> str:
-    """Getter-function for getting the private kwargs name."""
-    return '__%s_kwargs__' % self._getFieldName()
-
-  def _getPrivateKwargs(self) -> tuple:
-    """Getter-function for getting the private args."""
-    return maybe(self.__keyword_args__, {})
-
-  def _getFieldArgs(self) -> tuple:
+  def _getArgs(self, *args, ) -> list:
     """Getter-function for getting the positional arguments."""
-    return self.__positional_args__
+    if self.__positional_args__ is None:
+      return [*args, ]
+    return [*self.__positional_args__, *args]
 
-  def _getFieldKwargs(self) -> dict:
+  def _getKwargs(self, *args, **kwargs) -> dict:
     """Getter-function for getting the keyword arguments."""
-    return self.__keyword_args__
-
-  def _getArgs(self, instance: object) -> list:
-    """Getter-function for getting the positional arguments."""
-    return [*self._getPrivateArgs(), *self._getFieldArgs()]
-
-  def _getKwargs(self, instance: object) -> dict:
-    """Getter-function for getting the keyword arguments."""
-    return {**self._getPrivateKwargs(), **self._getFieldKwargs()}
+    if self.__keyword_args__ is None:
+      return {**kwargs, }
+    return {**self.__keyword_args__, **kwargs}
 
   def _hasFieldType(self) -> bool:
     """Flag indicating whether the field type has been set."""

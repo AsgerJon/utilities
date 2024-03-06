@@ -75,7 +75,8 @@ class MutableDescriptor(CoreDescriptor):
   def _instantiate(self, instance: object) -> None:
     """Instantiates the descriptor"""
     creator = self._getCreator(instance)
-    value = creator()
+    args, kwargs = self._getArgs(), self._getKwargs()
+    value = creator(instance, *args, **kwargs)
     pvtName = self._getPrivateName()
     setattr(instance, pvtName, value)
 

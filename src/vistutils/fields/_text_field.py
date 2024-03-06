@@ -21,3 +21,7 @@ class TextField(MutableDescriptor):
       if isinstance(arg, str) and self.__default_value__ is None:
         self.__default_value__ = arg
         break
+
+  def __get__(self, instance: object, owner: type, **kwargs) -> str:
+    """Returns the value of the descriptor."""
+    return MutableDescriptor.__get__(self, instance, owner, **kwargs)

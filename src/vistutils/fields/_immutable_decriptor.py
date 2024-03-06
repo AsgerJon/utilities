@@ -110,7 +110,7 @@ class ImmutableDescriptor(CoreDescriptor):
         raise TypeError(e)
     CoreDescriptor.__init__(self, *args, **kwargs)
 
-  def __get__(self, instance: object, owner: type, **kwargs) -> object:
+  def __get__(self, instance: object, owner: type, **kwargs) -> Any:
     """Returns the value of the descriptor"""
     if instance is None:
       return self

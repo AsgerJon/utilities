@@ -12,4 +12,6 @@ from ._typed_field import TypedField
 from ._wait import Wait
 from ._flag import Flag
 from ._int_field import IntField
+from ._float_field import FloatField
+from ._complex_field import ComplexField
 from ._text_field import TextField

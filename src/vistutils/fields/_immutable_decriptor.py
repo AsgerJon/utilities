@@ -22,6 +22,9 @@ prohibited. """
 #  Copyright (c) 2024 Asger Jon Vistisen
 from __future__ import annotations
 
+from logging import warning
+from typing import Any
+
 from vistutils.fields import CoreDescriptor
 from vistutils.waitaminute import typeMsg
 
@@ -33,45 +36,79 @@ class ImmutableDescriptor(CoreDescriptor):
   subclasses can reimplement the setter function, the default implementation
   provides type checking making this descriptor strongly typed."""
 
-  __field_type__ = None
+  __default_value__ = None
 
-  def __init__(self, *args) -> None:
-    """Initializes the descriptor"""
-    CoreDescriptor.__init__(self, *args)
-    if not args:
-      raise ValueError('Received no arguments!')
+  @classmethod
+  def _parseArgs(cls, *args, **kwargs) -> dict:
+    """Parses the positional arguments"""
+    defVal = kwargs.get('defVal', None)
+    valType = kwargs.get('valType', None)
+    if defVal is not None and valType is not None:
+      if args:
+        w = """The TypedField constructor received keyword arguments 
+        defining both the default value and the value type. The additional 
+        positional arguments are ignored."""
+        warning(w)
+      return {'defVal': defVal, 'valType': valType}
+    if defVal is not None and valType is None:
+      return {'defVal': defVal, 'valType': type(defVal)}
+    if valType is not None and defVal is None:
+      if isinstance(valType, type):
+        for arg in args:
+          if isinstance(arg, type):
+            w = """The TypedField constructor received both a positional 
+            argument and a keyword argument defining the value type. The 
+            positional argument is ignored."""
+            warning(w)
+          if isinstance(arg, valType):
+            return {'defVal': arg, 'valType': valType}
+        else:
+          return {'valType': valType, 'defVal': None}
+      else:
+        e = typeMsg('valType', valType, type)
+        raise TypeError(e)
+    #  defVal is None and valType is None
     if len(args) == 1:
       if isinstance(args[0], type):
-        self.__defVal = None
-        self.__valType = args[0]
-      else:
-        self.__defVal = args[0]
-        self.__valType = type(args[0])
-    elif len(args) == 2:
-      if isinstance(args[0], type):
-        if isinstance(args[1], args[0]):
-          self.__valType = args[0]
-          self.__defVal = args[1]
+        return {'valType': args[0], 'defVal': None}
+      return {'defVal': args[0], 'valType': type(args[0])}
+    if len(args) == 2:
+      typeArg, defValArg = None, None
+      for arg in args:
+        if isinstance(arg, type):
+          if typeArg is not None:
+            e = """The TypedField constructor received two positional 
+            arguments, but both are types. This ambiguity is prohibited."""
+            raise TypeError(e)
+          typeArg = arg
         else:
-          e = typeMsg(args[0], args[1], args[0])
-          raise TypeError(e)
-      elif isinstance(args[1], type):
-        if isinstance(args[0], args[1]):
-          self.__valType = args[1]
-          self.__defVal = args[0]
-        else:
-          e = typeMsg(args[1], args[0], args[1])
-          raise TypeError(e)
-      else:
-        e = """Received no types and multiple arguments!"""
-        raise ValueError(e)
-    else:
-      e = """Received too many arguments!"""
-      raise ValueError(e)
+          if defValArg is not None:
+            e = """The TypedField constructor received two positional 
+            arguments, neither of which are types. This ambiguity is 
+            prohibited."""
+            raise TypeError(e)
+          defValArg = arg
+      if isinstance(defValArg, typeArg):
+        return {'defVal': defValArg, 'valType': typeArg}
+      e = typeMsg('defVal', defValArg, typeArg)
+      raise TypeError(e)
+    if len(args) > 2:
+      e = """The TypedField constructor received more than two positional 
+      arguments. This is prohibited."""
+      raise TypeError(e)
 
-  def _getFieldType(self, ) -> type:
-    """Getter-function for getting the field type"""
-    return self.__valType
+  def __init__(self, *args, **kwargs) -> None:
+    """Initializes the descriptor"""
+    parsed = self._parseArgs(*args, **kwargs)
+    if isinstance(parsed.get('valType', ), type):
+      self._setFieldType(parsed['valType'])
+    if parsed.get('defVal', ) is not None:
+      if isinstance(parsed['defVal'], self._getFieldType()):
+        self._setDefaultValue(parsed['defVal'])
+      else:
+        e = typeMsg('defVal', parsed['defVal'], self._getFieldType())
+        raise TypeError(e)
+    CoreDescriptor.__init__(self, *args, **kwargs)
 
   def __get__(self, instance: object, owner: type, **kwargs) -> object:
     """Returns the value of the descriptor"""
@@ -105,12 +142,30 @@ class ImmutableDescriptor(CoreDescriptor):
     has no such attribute!"""
     raise AttributeError(e % (self._getFieldName(), instance))
 
+  def _hasDefaultValue(self) -> bool:
+    """Returns True if a default value is defined"""
+    return False if self.__default_value__ is None else True
+
   def _getDefaultValue(self) -> object:
     """Returns the default value"""
-    if self.__defVal is not None:
-      if isinstance(self.__defVal, self._getFieldType()):
-        return self.__defVal
-      e = typeMsg('defaultValue', self.__defVal, self._getFieldType())
+    if self.__default_value__ is not None:
+      if isinstance(self.__default_value__, self._getFieldType()):
+        return self.__default_value__
+      e = typeMsg('defaultValue', self.__default_value__,
+                  self._getFieldType())
       raise TypeError(e)
     e = """This instance of ImmutableDescriptor provides no default value!"""
     raise ValueError(e)
+
+  def _setDefaultValue(self, defVal: Any) -> Any:
+    """Sets the default value"""
+    if self._hasFieldType():
+      if not isinstance(defVal, self._getFieldType()):
+        e = typeMsg('defVal', defVal, self._getFieldType())
+        raise TypeError(e)
+      self.__default_value__ = defVal
+      return defVal
+    fieldType = type(defVal)
+    self.__default_value__ = defVal
+    self._setFieldType(fieldType)
+    return defVal

@@ -18,6 +18,7 @@ class CoreDescriptor:
 
   __field_name__ = None
   __field_owner__ = None
+  __field_type__ = None
   __positional_args__ = None
   __keyword_args__ = None
 
@@ -117,3 +118,22 @@ class CoreDescriptor:
   def _getKwargs(self, instance: object) -> dict:
     """Getter-function for getting the keyword arguments."""
     return {**self._getPrivateKwargs(), **self._getFieldKwargs()}
+
+  def _hasFieldType(self) -> bool:
+    """Flag indicating whether the field type has been set."""
+    return False if self.__field_type__ is None else True
+
+  def _getFieldType(self, ) -> type:
+    """Getter-function for getting the field type"""
+    if self.__field_type__ is not None:
+      return self.__field_type__
+    e = """Field type not defined!"""
+    raise AttributeError(e)
+
+  def _setFieldType(self, fieldType: type) -> type:
+    """Setter-function for setting the field type"""
+    if isinstance(fieldType, type):
+      self.__field_type__ = fieldType
+      return fieldType
+    e = typeMsg('fieldType', fieldType, type)
+    raise TypeError(e)

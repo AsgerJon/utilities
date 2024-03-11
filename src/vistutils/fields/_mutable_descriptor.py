@@ -85,7 +85,7 @@ class MutableDescriptor(CoreDescriptor):
     fieldType = self._getFieldType()
     expApply = None
     if getattr(fieldType, 'apply', None) is None:
-      e = """The Wait descriptor requires a default value to be defined. 
+      e = """The mutable descriptor requires a default value to be defined. 
       The default value is defined through the getDefault method of the 
       field type."""
       raise AttributeError(e)

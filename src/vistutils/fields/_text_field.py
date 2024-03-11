@@ -3,9 +3,17 @@
 #  Copyright (c) 2024 Asger Jon Vistisen
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Self
 
 from vistutils.fields import MutableDescriptor
+
+
+class _TextWrap:
+  """This class wraps the string class providing compatibility with the
+  TextField descriptor."""
+
+  def getDefault(self, *args, **kwargs) -> Self:
+    """Returns the default value for the field."""
 
 
 class TextField(MutableDescriptor):
@@ -24,7 +32,16 @@ class TextField(MutableDescriptor):
 
   def __get__(self, instance: object, owner: type, **kwargs) -> str:
     """Returns the value of the descriptor."""
-    return MutableDescriptor.__get__(self, instance, owner, **kwargs)
+    pvtName = self._getPrivateName()
+    if getattr(instance, pvtName, None) is None:
+      if kwargs.get('_recursion', False):
+        raise RecursionError
+      setattr(instance, pvtName, self.__default_value__)
+      return self.__get__(instance, owner, _recursion=True)
+    val = getattr(instance, pvtName)
+    if isinstance(val, str):
+      return val
+    return str(val)
 
   def __set__(self, instance: object, value: Any) -> None:
     """Sets the value of the descriptor."""

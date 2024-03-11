@@ -3,11 +3,14 @@
 #  Copyright (c) 2024 Asger Jon Vistisen
 from __future__ import annotations
 
+import cmath
+import math
 import os
 import sys
 from typing import Never
 
 from tester_class_01 import Point
+from tester_class_02 import Test
 from vistutils.waitaminute import typeMsg, EffortException
 
 from vistutils.parse import maybe
@@ -58,5 +61,18 @@ def tester04() -> None:
   print(p.x, p.y)
 
 
+def tester05() -> None:
+  """Testing EZData"""
+  test = Test()
+  print(test)
+  test.name = 'John Dee Znuts'
+  test.age = 43
+  test.hasSwag = True
+  test.value = 1.0
+  test.score = 420 + 69j
+  print(test)
+  print(cmath.phase(test.score))
+
+
 if __name__ == '__main__':
-  tester04()
+  tester05()

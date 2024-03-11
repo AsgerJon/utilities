@@ -3,6 +3,8 @@
 #  Copyright (c) 2024 Asger Jon Vistisen
 from __future__ import annotations
 
+from typing import Any
+
 from vistutils.fields import MutableDescriptor
 
 
@@ -23,3 +25,10 @@ class TextField(MutableDescriptor):
   def __get__(self, instance: object, owner: type, **kwargs) -> str:
     """Returns the value of the descriptor."""
     return MutableDescriptor.__get__(self, instance, owner, **kwargs)
+
+  def __set__(self, instance: object, value: Any) -> None:
+    """Sets the value of the descriptor."""
+    pvtName = self._getPrivateName()
+    if not isinstance(value, str):
+      value = str(value)
+    setattr(instance, pvtName, value)

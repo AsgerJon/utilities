@@ -3,49 +3,23 @@
 #  Copyright (c) 2024 Asger Jon Vistisen
 from __future__ import annotations
 
-from typing import Any, Self
+from typing import Any
 
-from vistutils.fields import MutableDescriptor
-
-
-class _TextWrap:
-  """This class wraps the string class providing compatibility with the
-  TextField descriptor."""
-
-  def getDefault(self, *args, **kwargs) -> Self:
-    """Returns the default value for the field."""
+from vistutils.fields import AbstractField
+from vistutils.waitaminute import typeMsg
 
 
-class TextField(MutableDescriptor):
+class TextField(AbstractField):
   """The TextField class provides a strongly typed descriptor containing
   text."""
 
-  __default_value__ = None
-  __fallback_value__ = ''
-
-  def __init__(self, *args, **kwargs) -> None:
-    MutableDescriptor.__init__(self, str, *args, **kwargs)
-    for arg in args:
-      if isinstance(arg, str) and self.__default_value__ is None:
-        self.__default_value__ = arg
-        break
-
-  def __get__(self, instance: object, owner: type, **kwargs) -> str:
-    """Returns the value of the descriptor."""
-    pvtName = self._getPrivateName()
-    if getattr(instance, pvtName, None) is None:
-      if kwargs.get('_recursion', False):
-        raise RecursionError
-      setattr(instance, pvtName, self.__default_value__)
-      return self.__get__(instance, owner, _recursion=True)
-    val = getattr(instance, pvtName)
-    if isinstance(val, str):
-      return val
-    return str(val)
-
-  def __set__(self, instance: object, value: Any) -> None:
-    """Sets the value of the descriptor."""
-    pvtName = self._getPrivateName()
-    if not isinstance(value, str):
-      value = str(value)
-    setattr(instance, pvtName, value)
+  def _typeGuard(self, value: Any, **kwargs) -> str:
+    """Guards the type. The banality of this type guard reflects the fact,
+    a special effort is required for str(obj) to fail."""
+    if isinstance(value, str):
+      return value
+    try:
+      return object.__str__(value)
+    except Exception as exception:
+      e = typeMsg('value', value, str)
+      raise TypeError(e) from exception

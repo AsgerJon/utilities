@@ -1,32 +1,29 @@
-"""FloatField provides a strongly typed descriptor containing floats."""
+"""IntField provides a strongly typed descriptor field for integers"""
 #  MIT Licence
 #  Copyright (c) 2024 Asger Jon Vistisen
 from __future__ import annotations
 
-from vistutils.fields import ImmutableDescriptor
+from typing import Any
+
+from vistutils.fields import AbstractField
+from vistutils.waitaminute import typeMsg
 
 
-class FloatField(ImmutableDescriptor):
-  """The FloatField class provides a strongly typed descriptor containing
-  floats."""
+class FloatField(AbstractField):
+  """The IntField class provides a strongly typed descriptor containing
+  integers."""
 
-  __default_value__ = None
-  __fallback_value__ = 0.0
-
-  def __init__(self, *args) -> None:
-    """Initializes the FloatField"""
-    ImmutableDescriptor.__init__(self, float, *args)
-    for arg in args:
-      if isinstance(arg, float) and self.__default_value__ is None:
-        self.__default_value__ = arg
-        break
-
-  def getDefaultValue(self) -> float:
-    """Returns the default value."""
-    if self.__default_value__ is None:
-      return self.__fallback_value__
-    return self.__default_value__
-
-  def __get__(self, instance: object, owner: type, **kwargs) -> float:
-    """Returns the value of the descriptor."""
-    return ImmutableDescriptor.__get__(self, instance, owner, **kwargs)
+  def _typeGuard(self, value: Any, **kwargs) -> float:
+    """Guards the type."""
+    if isinstance(value, float):
+      return value
+    if kwargs.get('_recursion', False):
+      raise RecursionError
+    try:
+      return self._typeGuard(complex(value), _recursion=True)
+    except ValueError as valueError:
+      e = typeMsg('value', value, float)
+      raise TypeError(e) from valueError
+    except RecursionError as recursionError:
+      e = typeMsg('value', value, float)
+      raise TypeError(e) from recursionError

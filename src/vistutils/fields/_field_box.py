@@ -5,6 +5,10 @@ from __future__ import annotations
 
 from typing import Any, Never
 
+from vistutils.text import monoSpace
+
+from vistutils.fields import unParseArgs
+
 from vistutils.parse import maybe
 
 
@@ -79,12 +83,15 @@ class FieldBox:
       return self.__get__(instance, owner, _recursion=True, )
     return getattr(instance, pvtName)
 
-  def __set__(self, *_) -> Never:
+  def __set__(self, instance: object, value: Any) -> Never:
     """Must be implemented in subclass"""
-    e = """Instances of Field cannot be set. """
-    raise TypeError(e)
+    newValue = self.__field_type__(unParseArgs(value))
+    setattr(instance, self._getPrivateFieldName(), newValue)
 
-  def __delete__(self, *_) -> Never:
+  def __delete__(self, instance: object) -> Never:
     """Must be implemented in subclass"""
-    e = """Instances of Field cannot be deleted. """
-    raise TypeError(e)
+    pvtName = self._getPrivateFieldName()
+    if getattr(instance, pvtName, None) is not None:
+      return delattr(instance, pvtName)
+    e = """The instance: '%s' has no attribute at given name: '%s'!"""
+    raise AttributeError(monoSpace(e % (instance, pvtName)))

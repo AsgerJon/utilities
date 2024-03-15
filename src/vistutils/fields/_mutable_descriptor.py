@@ -102,9 +102,12 @@ class MutableDescriptor(CoreDescriptor):
       e = """Trying to apply '%s' to field '%s' of type '%s' encountered 
       the error.""" % (value, pvtName, fieldType)
       raise RuntimeError(e) from e
-    if hasattr(expApply, '__func__'):
-      return expApply.__func__(instance, value)
-    return expApply(instance, value)
+    existingValue = getattr(instance, pvtName, None)
+    if existingValue is None:
+      creator = getattr(fieldType, 'getDefault', None)
+      existingValue = creator()
+    newValue = expApply(existingValue, value)
+    setattr(instance, pvtName, newValue)
 
   def __delete__(self, instance) -> None:
     """Deletes the value of the descriptor"""

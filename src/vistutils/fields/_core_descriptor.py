@@ -59,7 +59,11 @@ class CoreDescriptor:
   def _instantiate(self, instance: object, ) -> None:
     """Please note that the core descriptor provides no implementation of
     this method. """
-    raise AttributeError(self._getFieldName())
+    creator = getattr(fieldType, 'getDefault')
+    args, kwargs = self._getArgs(), self._getKwargs()
+    value = creator(instance, *args, **kwargs)
+    pvtName = self._getPrivateName()
+    setattr(instance, pvtName, value)
 
   def __get__(self, instance: object, owner: type, **kwargs) -> Any:
     """Returns the font or the descriptor."""

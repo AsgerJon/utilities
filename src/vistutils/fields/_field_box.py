@@ -20,7 +20,7 @@ class FieldBox:
     """Returns a new Field with the inner class as the field type."""
     return cls(innerCls)
 
-  def __init__(self, cls: type) -> None:
+  def __init__(self, cls: type = None) -> None:
     """Initializes the field."""
     self.__field_type__ = cls
 

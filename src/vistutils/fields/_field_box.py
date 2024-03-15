@@ -20,8 +20,16 @@ class FieldBox:
     """Returns a new Field with the inner class as the field type."""
     return cls(innerCls)
 
-  def __init__(self, cls: type = None) -> None:
+  def __init__(self, *args, **kwargs) -> None:
     """Initializes the field."""
+    cls = None
+    for arg in args:
+      if isinstance(arg, type) and cls is None:
+        cls = arg
+        break
+    else:
+      e = """The first argument must be a class."""
+      raise TypeError(e)
     self.__field_type__ = cls
 
   def __call__(self, *args, **kwargs) -> Any:

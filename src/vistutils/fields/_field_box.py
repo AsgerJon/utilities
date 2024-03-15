@@ -5,6 +5,8 @@ from __future__ import annotations
 
 from typing import Any, Never
 
+from vistutils.parse import maybe
+
 
 class FieldBox:
   """The field box wraps the class in brackets."""
@@ -53,11 +55,11 @@ class FieldBox:
 
   def _getArgs(self) -> list:
     """Getter-function for positional arguments"""
-    return self.__positional_args__
+    return maybe(self.__positional_args__, [])
 
   def _getKwargs(self) -> dict:
     """Getter-function for keyword arguments"""
-    return self.__keyword_args__
+    return maybe(self.__keyword_args__ or {})
 
   def _instantiate(self, instance: object, ) -> Any:
     """Instantiates the field."""

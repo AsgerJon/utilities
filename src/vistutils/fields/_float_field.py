@@ -15,8 +15,8 @@ class FloatField(AbstractField):
 
   def _typeGuard(self, value: Any, **kwargs) -> float:
     """Guards the type."""
-    if isinstance(value, float):
-      return value
+    if isinstance(value, (float, int)):
+      return float(value)
     if kwargs.get('_recursion', False):
       raise RecursionError
     try:

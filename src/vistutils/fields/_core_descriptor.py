@@ -59,6 +59,7 @@ class CoreDescriptor:
   def _instantiate(self, instance: object, ) -> None:
     """Please note that the core descriptor provides no implementation of
     this method. """
+    fieldType = self._getFieldType()
     creator = getattr(fieldType, 'getDefault')
     args, kwargs = self._getArgs(), self._getKwargs()
     value = creator(instance, *args, **kwargs)

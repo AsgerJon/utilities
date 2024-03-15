@@ -12,6 +12,8 @@ from ._text_field import TextField
 
 #  lmao
 from ._static_field import StaticField
+from ._field_box import FieldBox
+
 from ._unparse_args import unParseArgs
 from ._core_descriptor import CoreDescriptor
 from ._mutable_descriptor import MutableDescriptor

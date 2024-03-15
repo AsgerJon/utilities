@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 from ._abstract_field import AbstractField
+from ._flag import Flag
 from ._int_field import IntField
 from ._float_field import FloatField
 from ._complex_field import ComplexField
@@ -17,4 +18,3 @@ from ._mutable_descriptor import MutableDescriptor
 from ._immutable_decriptor import ImmutableDescriptor
 from ._typed_field import TypedField
 from ._wait import Wait
-from ._flag import Flag

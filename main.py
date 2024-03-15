@@ -78,7 +78,7 @@ def tester05() -> None:
   lol.name = 7
   lol.hasSwag = False
   test.value = 1.5
-  lol.score = 69+420j
+  lol.score = 69 + 420j
   print(lol)
 
 

@@ -24,21 +24,6 @@ class Flag(AbstractField):
         kwargs |= {key: val}
     AbstractField.__init__(self, *args, **kwargs)
 
-  def _parseDefault(self, ) -> Any:
-    """Parses the default value."""
-    kVal = self._getKwargs()
-    args = [*self.__positional_args__, kVal]
-    for arg in args:
-      if arg is True or arg is False:
-        return arg
-    if len(self.__positional_args__) > 1:
-      return True
-    if kVal is not None:
-      return True if kVal else False
-    if args:
-      return True if args[0] else False
-    return False
-
   def _typeGuard(self, value: Any, **kwargs) -> bool:
     """Guards the type."""
     if self.__strictly_valued__:

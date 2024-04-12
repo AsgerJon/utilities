@@ -6,7 +6,12 @@ the same value regardless of the instance."""
 #  Copyright (c) 2024 Asger Jon Vistisen
 from __future__ import annotations
 
-from typing import Never
+import sys
+
+if sys.version_info.minor < 11:
+  from typing import NoReturn as Never
+else:
+  from typing import Never
 
 
 class StaticField:

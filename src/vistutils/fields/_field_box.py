@@ -3,13 +3,19 @@
 #  Copyright (c) 2024 Asger Jon Vistisen
 from __future__ import annotations
 
-from typing import Any, Never
+import sys
 
 from vistutils.text import monoSpace
 
 from vistutils.fields import unParseArgs
 
 from vistutils.parse import maybe
+
+from typing import Any
+if sys.version_info.minor < 11:
+  from typing import NoReturn as Never
+else:
+  from typing import Never
 
 
 class FieldBox:

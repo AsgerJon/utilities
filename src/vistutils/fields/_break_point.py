@@ -6,11 +6,18 @@ from __future__ import annotations
 
 import os
 import subprocess
-from typing import Any, Self
+import sys
 
 from icecream import ic
 from vistutils.parse import maybe
 from vistutils.text import monoSpace, stringList
+
+from typing import Any
+
+if sys.version_info.minor < 11:
+  from typing_extensions import Self
+else:
+  from typing import Self
 
 
 class BreakPoint:

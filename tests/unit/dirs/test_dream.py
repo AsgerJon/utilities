@@ -10,7 +10,7 @@ functions as expected in a variety of scenarios.
 The tests make use of the unittest and 'unittest.mock' libraries for
 creating the test
 cases and mocking the necessary objects and methods, respectively."""
-#  MIT Licence
+#  GPL-3.0 license
 #  Copyright (c) 2024 Asger Jon Vistisen
 import unittest
 from unittest.mock import patch, MagicMock

@@ -1,6 +1,6 @@
 """The WaitForIt warning is issued when a placeholder default value is
 used, where a proper implementation is intended for future release. """
-#  MIT Licence
+#  GPL-3.0 license
 #  Copyright (c) 2024 Asger Jon Vistisen
 from __future__ import annotations
 

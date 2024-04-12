@@ -1,5 +1,5 @@
 """Script running the tests for the project."""
-#  MIT Licence
+#  GPL-3.0 license
 #  Copyright (c) 2024 Asger Jon Vistisen
 import unittest
 from vistutils.dirs import Dream

@@ -6,7 +6,7 @@ the string the following tags to explicitly set new lines or indentations:
   '<n: int>' for indentations of 'n' spaces.
   '<tab>' for one tab containing the number of spaces defined at the
   keyword argument 'tab', by default 2."""
-#  MIT Licence
+#  GPL-3.0 license
 #  Copyright (c) 2024 Asger Jon Vistisen
 from __future__ import annotations
 

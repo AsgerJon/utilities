@@ -2,7 +2,7 @@
 instance through which they are accessed. If accessed through the owner
 class they return themselves. If accessed through an instance they return
 the same value regardless of the instance."""
-#  MIT Licence
+#  GPL-3.0 license
 #  Copyright (c) 2024 Asger Jon Vistisen
 from __future__ import annotations
 

@@ -61,7 +61,7 @@ square brackets are used. This behaviour can be wrapped on even existing
 classes using the descriptor decorator.
 
 """
-#  MIT Licence
+#  GPL-3.0 license
 #  Copyright (c) 2024 Asger Jon Vistisen
 from __future__ import annotations
 

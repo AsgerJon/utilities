@@ -2,7 +2,7 @@
 instances: GET, SET and DEL to decorate getter, setter and deleter
 methods. Please note, that the decorator does not wrap the method.
 Instead, a reference will point the field to decorated method. """
-#  MIT Licence
+#  GPL-3.0 license
 #  Copyright (c) 2024 Asger Jon Vistisen
 from __future__ import annotations
 

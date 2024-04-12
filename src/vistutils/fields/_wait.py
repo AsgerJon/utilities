@@ -1,7 +1,7 @@
 """Wait provides a deferred value through a descriptor allowing for it to
 be defined at the time of creating the owning flass, without requiring
 immediate instantiation. """
-#  MIT Licence
+#  GPL-3.0 license
 #  Copyright (c) 2024 Asger Jon Vistisen
 from __future__ import annotations
 

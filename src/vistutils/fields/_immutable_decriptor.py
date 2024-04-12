@@ -18,7 +18,7 @@ class Owner:
 For each of the above a keyword argument provided takes precedence.
 Multiple types given will cause an error. Multiple non-types are likewise
 prohibited. """
-#  MIT Licence
+#  GPL-3.0 license
 #  Copyright (c) 2024 Asger Jon Vistisen
 from __future__ import annotations
 

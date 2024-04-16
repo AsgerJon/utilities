@@ -18,5 +18,9 @@ class Test:
 
   def __str__(self, ) -> str:
     """Let's list all the descriptor fields right here!"""
-    return (f'{self.name=}, {self.age=}, {self.hasSwag=}, {self.value=}, '
-            f'{self.score=}')
+    data = [self.name, self.age, self.hasSwag, self.value, self.score]
+    keys = ['name', 'age', 'hasSwag', 'value', 'score']
+    n = max([len(key) for key in keys])
+    fmtSpec = '%%%ds: %%s' % (n + 1)
+    lines = [fmtSpec % (key, data) for key, data in zip(keys, data)]
+    return '\n'.join(lines)

@@ -7,7 +7,11 @@ import cmath
 import math
 import os
 import sys
-from typing import Never
+
+if sys.version_info < (3, 11):
+  from typing_extensions import Never
+else:
+  from typing import Never
 
 from tester_class_01 import Point
 from tester_class_02 import Test

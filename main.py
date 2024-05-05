@@ -8,6 +8,8 @@ import math
 import os
 import sys
 
+# from PySide6.QtGui import QColor
+
 if sys.version_info < (3, 11):
   from typing_extensions import Never
 else:
@@ -86,5 +88,16 @@ def tester05() -> None:
   print(lol)
 
 
+def tester06() -> None:
+  """MineCraft 1.20.6 FTW!"""
+  red, green, blue = 144, 255, 0
+  colNum = red * 2 ** 16 + green * 2 ** 8 + blue
+  print(colNum)
+
+
+def tester07() -> None:
+  """MineCraft 1.20.6 FTW!"""
+
+
 if __name__ == '__main__':
-  tester05()
+  tester01()

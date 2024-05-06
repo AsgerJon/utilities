@@ -16,7 +16,7 @@ class AbstractDecorator:
 
   __wrapped_class__ = None
 
-  def __init__(self, cls: Optional[type]) -> None:
+  def __init__(self, cls: Optional[type] = None, **kwargs) -> None:
     """Initialize the AbstractDecorator with the wrapped class."""
     if cls is not None:
       if not isinstance(cls, type):

@@ -56,12 +56,15 @@ class MidClass(AbstractDecorator):
   __attribute_name__ = None
   __replacement_method__ = None
 
-  def __init__(self, attributeName: str, callMeMaybe: callable) -> None:
+  def __init__(self, *args) -> None:
     """Initialize the MidClass with the attribute name and the replacement
     method."""
     AbstractDecorator.__init__(self, )
-    self._setAttributeName(attributeName)
-    self._setReplacementMethod(callMeMaybe)
+    for arg in args:
+      if isinstance(arg, str) and self.__attribute_name__ is None:
+        self._setAttributeName(arg)
+      elif callable(arg) and self.__replacement_method__ is None:
+        self._setReplacementMethod(arg)
 
   def _setAttributeName(self, attributeName: str) -> None:
     """Set the attribute name of the MidClass object."""
@@ -101,6 +104,13 @@ class MidClass(AbstractDecorator):
       e = typeMsg('decoratedClass', decoratedClass, type)
       raise TypeError(e)
     name = self._getAttributeName()
-    replacement = MethodType(self._getReplacementMethod(), decoratedClass)
+    repFunc = self._getReplacementMethod()
+    if repFunc is None:
+      e = """The replacement method has not been assigned!"""
+      raise AttributeError(e)
+    if not callable(repFunc):
+      e = typeMsg('replacement', repFunc, Callable)
+      raise TypeError(e)
+    replacement = MethodType(repFunc, decoratedClass)
     setattr(decoratedClass, name, replacement)
     return decoratedClass

@@ -8,6 +8,8 @@ import math
 import os
 import sys
 
+from tester_class_03 import TesterClass03, TesterClass04
+
 # from PySide6.QtGui import QColor
 
 if sys.version_info < (3, 11):
@@ -97,7 +99,11 @@ def tester06() -> None:
 
 def tester07() -> None:
   """MineCraft 1.20.6 FTW!"""
+  test = TesterClass03()
+  test2 = TesterClass04()
+  print(test.__class__)
+  print(test2.__class__)
 
 
 if __name__ == '__main__':
-  tester01()
+  tester07()

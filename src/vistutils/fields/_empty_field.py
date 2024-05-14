@@ -6,10 +6,12 @@ from __future__ import annotations
 
 from typing import Callable
 
-from PySide6.QtCore import QObject
 from vistutils.text import monoSpace
 from vistutils.waitaminute import typeMsg
-
+try:
+  from PySide6.QtCore import QObject
+except ModuleNotFoundError:
+  QObject=object
 
 class EmptyField(QObject):
   """EmptyField provides a mostly empty constructor except for the field

@@ -4,9 +4,11 @@
 from __future__ import annotations
 
 import cmath
-import math
 import os
 import sys
+import time
+
+from pyperclip import copy
 
 from tester_class_03 import TesterClass03, TesterClass04
 
@@ -15,7 +17,7 @@ from tester_class_03 import TesterClass03, TesterClass04
 if sys.version_info < (3, 11):
   from typing_extensions import Never
 else:
-  from typing import Never
+  from typing import Never, Callable
 
 from tester_class_01 import Point
 from tester_class_02 import Test
@@ -105,5 +107,42 @@ def tester07() -> None:
   print(test2.__class__)
 
 
+def tester08() -> None:
+  """FUCK YOU"""
+  fileId = '/home/AsgerJon/lmao.txt'
+  data = None
+  lines = []
+  with open(fileId, 'r', encoding='utf8') as f:
+    data = f.readlines()
+    for line in data:
+      if '6.7.1' in line:
+        lines.append(line.replace('\n', ''))
+  for item in lines:
+    print('|%s|' % item)
+  fuck = '\n'.join(lines)
+  copy(fuck)
+
+
+def main(callMeMaybe: Callable) -> None:
+  """Main Tester Script"""
+  tic = time.perf_counter_ns()
+  print('Running python script located at: \n%s' % sys.argv[0])
+  print('Running function: %s' % callMeMaybe.__name__)
+  print('Started at: %s' % time.ctime())
+  print(77 * '-')
+  retCode = 0
+  try:
+    retCode = callMeMaybe()
+  except BaseException as exception:
+    print('Exception: %s' % exception)
+    retCode = -1
+    raise exception
+  retCode = 0 if retCode is None else retCode
+  print(77 * '-')
+  print('Return Code: %s' % retCode)
+  toc = time.perf_counter_ns() - tic
+  print('Runtime: %.3E seconds' % (toc * 1e-09,))
+
+
 if __name__ == '__main__':
-  tester07()
+  main(tester08)

@@ -15,7 +15,7 @@ from vistutils.waitaminute import typeMsg
 ic.configureOutput(includeContext=True, )
 
 
-class Field:
+class EmptyField:
   """Field improves upon the EmptyField class by changing the decorators to
   record the name of the callable rather than the callable. The accessor
   will then invoke a callable of that name. This allows a subclass to change

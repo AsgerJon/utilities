@@ -22,8 +22,10 @@ custom class as the namespace object, you acknowledge that:
   - Highly undefined behaviour is likely.
   - There are no dragons here. Anymore.
   - [REDACTED COGNITO HAZARD]"""
-#  GPL-3.0 license
-#  Copyright (c) 2024 Asger Jon Vistisen
+# *************************************************************************
+#  AGPL-3.0 license                                                       *
+#  Copyright (c) 2024 Asger Jon Vistisen                                  *
+# *************************************************************************
 from __future__ import annotations
 
 from vistutils.metas import Bases, BaseNamespace, AbstractNamespace

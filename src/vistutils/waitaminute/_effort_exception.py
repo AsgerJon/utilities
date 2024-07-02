@@ -1,8 +1,10 @@
 """EffortException is raised were functionality would logically be expected
 but where the effort required for implementation substantially exceeds any
 benefit or utility."""
-#  GPL-3.0 license
-#  Copyright (c) 2024 Asger Jon Vistisen
+# *************************************************************************
+#  AGPL-3.0 license                                                       *
+#  Copyright (c) 2024 Asger Jon Vistisen                                  *
+# *************************************************************************
 from __future__ import annotations
 
 from vistutils.text import monoSpace

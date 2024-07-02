@@ -1,7 +1,9 @@
 """The maybe function and related functions provide None-aware type
 filtering."""
-#  GPL-3.0 license
-#  Copyright (c) 2024 Asger Jon Vistisen
+# *************************************************************************
+#  AGPL-3.0 license                                                       *
+#  Copyright (c) 2024 Asger Jon Vistisen                                  *
+# *************************************************************************
 from __future__ import annotations
 
 from builtins import tuple

@@ -31,12 +31,14 @@ custom class as the namespace object, you acknowledge that:
   - Highly undefined behaviour awaits.
   - [REDACTED COGNITO HAZARD]
 """
-#  GPL-3.0 license
-#  Copyright (c) 2024 Asger Jon Vistisen
+# *************************************************************************
+#  AGPL-3.0 license                                                       *
+#  Copyright (c) 2024 Asger Jon Vistisen                                  *
+# *************************************************************************
 from __future__ import annotations
 
 from abc import abstractmethod
-from typing import Any, Callable
+from typing import Any
 
 from vistutils.metas import Bases
 

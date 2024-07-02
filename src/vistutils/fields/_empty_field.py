@@ -1,9 +1,11 @@
 """Field improves upon the EmptyField class by changing the decorators to
 record the name of the callable rather than the callable. The accessor
-will then invoke a callable of that name. This allows a subclass to change
+will then invoke the named callable. This allows a subclass to change
 inherited accessor functions. """
-#  GPL-3.0 license
-#  Copyright (c) 2024 Asger Jon Vistisen
+# *************************************************************************
+#  AGPL-3.0 license                                                       *
+#  Copyright (c) 2024 Asger Jon Vistisen                                  *
+# *************************************************************************
 from __future__ import annotations
 
 from typing import Callable
@@ -18,7 +20,7 @@ ic.configureOutput(includeContext=True, )
 class EmptyField:
   """Field improves upon the EmptyField class by changing the decorators to
   record the name of the callable rather than the callable. The accessor
-  will then invoke a callable of that name. This allows a subclass to change
+  will then invoke the named callable. This allows a subclass to change
   inherited accessor functions. """
 
   __field_name__ = None

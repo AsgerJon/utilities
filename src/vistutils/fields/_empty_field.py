@@ -154,3 +154,7 @@ class EmptyField:
   def DELETE(self, callMeMaybe: Callable) -> Callable:
     """Decorator for setting the deleter function of the field."""
     return self.__set_deleter__(callMeMaybe)
+
+  def DEL(self, callMeMaybe: Callable) -> Callable:
+    """Decorator for setting the deleter function of the field."""
+    return self.__set_deleter__(callMeMaybe)
